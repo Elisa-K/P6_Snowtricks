@@ -2,8 +2,22 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>{% block title %}{% endblock %}</title>
+
+        {# Favicons #}
+        <link rel="icon" href="{{ asset('img/favicon.png') }}">
+
+        {# Google Fonts #}
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+        {# Bootstrap CSS Files #}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+        {# Template Main CSS File #}
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -13,7 +27,80 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+
     <body>
+        {#  ======= Header =======  #}
+        <header id="header" class="fixed-top header-inner-pages d-none d-lg-block">
+            <div class="container d-flex align-items-center justify-content-between">
+
+            <h1 class="logo"><a href="">Snowtricks</a></h1>
+
+            {#  ======= Menu =======  #}
+            <nav id="navbar" class="navbar ">
+                <ul>
+                    <li>
+                        <a class="nav-link scrollto active" href="">Accueil</a>
+                    </li>
+                    <li>
+                        <a class="nav-link scrollto" href="">Figures</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="">Inscription</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="">Connexion</a>
+                    </li>
+                </ul>
+             </nav>{# End Menu #}
+
+            </div>
+         </header>{# End Header  #}
+
+        {# ======= Menu Mobile ======= #}
+        <nav id="navbar" class="navbar navbar-mobile fixed-bottom d-block d-lg-none">
+            <ul>
+                <li>
+                    <a class="nav-link scrollto active" href="">
+                        <i class="bi bi-house-door-fill"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link scrollto" href="">
+                        <i class="bi bi-snow2"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="">
+                        <i class="bi bi-person-add"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                    </a>
+                </li>
+            </ul>
+         </nav>{# End Menu Mobile #}
+
+
+        {# ======= Content ======= #}
         {% block body %}{% endblock %}
+        {# End Content #}
+
+        {# ======= Footer ======= #}
+        <footer id="footer">
+            <div class="container d-md-flex py-4">
+                <div class="me-md-auto text-center text-md-start">
+                    <div class="copyright">Copyright &copy; 2023 <strong><span>Snowtricks</span></strong>.</div>
+                </div>
+            </div>
+         </footer>{# End Footer #}
+
+
+        {# Bootstrap JS Files #}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+        {# Template Main JS File #}
+        <script src="{{ asset('js/main.js') }}"></script>
     </body>
 </html>

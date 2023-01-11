@@ -138,7 +138,7 @@ class Trick
     }
 
     #[ORM\PreUpdate]
-    public function updateTimestamp()
+    public function updateTimestamp(): void
     {
         $this->setUpdatedAt(new \DateTime);
     }
