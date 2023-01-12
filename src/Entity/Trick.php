@@ -30,11 +30,11 @@ class Trick
     #[ORM\Column(length: 255)]
     private ?string $featuredImage = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Photo::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $photos;
@@ -44,11 +44,11 @@ class Trick
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ? GroupTrick $groupTrick = null;
+    private ?GroupTrick $groupTrick = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ? User $author = null;
+    private ?User $author = null;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $comments;
@@ -58,6 +58,7 @@ class Trick
         $this->photos = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -140,7 +141,7 @@ class Trick
     #[ORM\PreUpdate]
     public function updateTimestamp(): void
     {
-        $this->setUpdatedAt(new \DateTime);
+        $this->setUpdatedAt(new \DateTimeImmutable);
     }
 
     /**
@@ -203,24 +204,24 @@ class Trick
         return $this;
     }
 
-    public function getGroupTrick(): ? GroupTrick
+    public function getGroupTrick(): ?GroupTrick
     {
         return $this->groupTrick;
     }
 
-    public function setGroupTrick(? GroupTrick $groupTrick): self
+    public function setGroupTrick(?GroupTrick $groupTrick): self
     {
         $this->groupTrick = $groupTrick;
 
         return $this;
     }
 
-    public function getAuthor(): ? User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(? User $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 

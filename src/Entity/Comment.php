@@ -20,17 +20,21 @@ class Comment
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ? User $author = null;
+    private ?User $author = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ? Trick $trick = null;
+    private ?Trick $trick = null;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -60,24 +64,24 @@ class Comment
         return $this;
     }
 
-    public function getAuthor(): ? User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(? User $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getTrick(): ? Trick
+    public function getTrick(): ?Trick
     {
         return $this->trick;
     }
 
-    public function setTrick(? Trick $trick): self
+    public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
 

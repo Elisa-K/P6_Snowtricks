@@ -9,10 +9,10 @@
 /* Colors */
 :root {
   --color-dark: #333;
-  --color-light: #E4E2E3;
-  --color-default: #223F4F;
-  --color-primary: #3B6978;
-  --color-secondary: #83A9AC;
+  --color-light: #DECCCC;
+  --color-default: #094785;
+  --color-primary: #1098F7;
+  --color-secondary: #B89E97;
 }
 
 /*--------------------------------------------------------------
@@ -21,6 +21,19 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
+}
+
+main{
+  display: grid;
+  min-height: calc(100vh - 120px);
+}
+
+@media(min-width: 992px){
+
+  main{
+    min-height: calc(100vh - 60px);
+  }
+
 }
 
 a {
@@ -40,6 +53,15 @@ h4,
 h5,
 h6 {
   font-family: "Nunito", sans-serif;
+}
+
+.btn-primary{
+  background-color: var(--color-default) !important;
+  border-color: var(--color-default) !important;
+}
+
+.invalid-feedback{
+  text-align: left;
 }
 
 /*--------------------------------------------------------------
@@ -99,12 +121,12 @@ h6 {
 }
 
 #header .logo img {
-  max-height: 40px;
+  max-height: 60px;
 }
 
 #header.header-scrolled,
 #header.header-inner-pages {
-  background: rgba(13, 26, 33, 0.9);
+  background: rgba(184, 158, 151, 0.9);
   padding: 12px 0;
 }
 
@@ -157,7 +179,7 @@ h6 {
   height: 2px;
   bottom: -6px;
   left: 0;
-  background-color: var(--color-secondary);
+  background-color: var(--color-light);
   visibility: hidden;
   transform: scaleX(0);
   transition: all 0.3s ease-in-out 0s;
@@ -182,8 +204,9 @@ h6 {
 */
 
 .navbar-mobile {
-  background: rgba(13, 26, 33);
+  background: #fff;
   height : 60px;
+  border-top: 1px solid rgb(182, 182, 182);
 }
 
 .navbar-mobile a i{
@@ -196,6 +219,18 @@ h6 {
 
 .navbar-mobile>ul>li{
   padding: 10px;
+}
+
+.navbar-mobile a,
+.navbar-mobile a:focus{
+  color: #333;
+}
+
+.navbar-mobile a:hover,
+.navbar-mobile .active,
+.navbar-mobile .active:focus,
+.navbar-mobile li:hover>a {
+  color: #333;
 }
 /*--------------------------------------------------------------
 # Hero Section
@@ -313,7 +348,7 @@ h6 {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 0;
+  padding: 60px 15px;
   overflow: hidden;
 }
 
@@ -1029,9 +1064,28 @@ section {
 }
 
 /*--------------------------------------------------------------
+# Signup
+--------------------------------------------------------------*/
+.signup{
+  display: flex;
+  align-items: center;
+  height:100%;
+}
+
+.signup .logo{
+  width: 200px;
+}
+
+.form-signup{
+  max-width: 450px;
+}
+
+
+/*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
 #footer {
+  height: 60px;
   color: #444444;
   font-size: 14px;
   background: #fbf9fa;
@@ -1183,4 +1237,12 @@ section {
   background: #d01d3f;
   color: #fff;
   text-decoration: none;
+}
+
+@media(max-width: 991px){
+
+  #footer{
+    margin-bottom: 60px;
+  }
+
 }
