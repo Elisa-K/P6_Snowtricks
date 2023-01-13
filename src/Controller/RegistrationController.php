@@ -34,6 +34,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             // do anything else you need here, like send an email
 
+            $this->addFlash('success', 'Votre profil a bien été créer. Un mail a été envoyé afin d\'activer votre compte');
             // TODO change redirect to homepage
             return $this->redirectToRoute('app_register');
         }
