@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\VideoRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\VideoRepository;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 #[ORM\Table("videos")]
@@ -15,12 +16,12 @@ class Video
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $embed = null;
 
     #[ORM\ManyToOne(inversedBy: 'videos')]
     #[ORM\JoinColumn(nullable: false)]
-    private ? Trick $trick = null;
+    private ?Trick $trick = null;
 
     public function getId(): ?int
     {
@@ -39,12 +40,12 @@ class Video
         return $this;
     }
 
-    public function getTrick(): ? Trick
+    public function getTrick(): ?Trick
     {
         return $this->trick;
     }
 
-    public function setTrick(? Trick $trick): self
+    public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
 

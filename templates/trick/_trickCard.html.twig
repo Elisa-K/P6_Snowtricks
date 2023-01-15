@@ -1,0 +1,20 @@
+<div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+	<div class="trick">
+		<a href="" class="trick-img">
+		<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}" class="img-fluid" alt="{{ trick.name }}">
+		</a>
+		<div class="trick-info">
+		<div class="trick-group">
+			<h2>{{ trick.groupTrick.name }}</h2>
+		</div>
+		<a href=""><h4>{{ trick.name }}</h4></a>
+
+		{# TODO display button only for connected user #}
+
+		{# <div class="trick-action">
+			<a href="add-trick.html" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
+			<a href="add-trick.html" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
+		</div> #}
+		</div>
+	</div>
+</div>

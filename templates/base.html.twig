@@ -10,6 +10,7 @@
 
         {# Google Fonts #}
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap" rel="stylesheet">
 
         {# Bootstrap CSS Files #}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
@@ -30,19 +31,19 @@
 
     <body>
         {#  ======= Header =======  #}
-        <header id="header" class="fixed-top header-inner-pages d-none d-lg-block">
+        <header id="header" class="fixed-top {% if app.request.get('_route') != 'app_home' %}header-inner-pages {% endif %} d-none d-lg-block">
             <div class="container d-flex align-items-center justify-content-between">
 
-            <h1 class="logo"><a href=""><img src="{{ asset('assets/img/logo.png') }}" alt="logo-snowtricks" class="logo"></a></h1>
+            <h1 class="logo"><img src="{{ asset('assets/img/logo.png') }}" alt=""><a href="{{ path('app_home') }}" class="txt-logo">Snowtricks</a></a></h1>
 
             {#  ======= Menu =======  #}
             <nav id="navbar" class="navbar ">
                 <ul>
                     <li>
-                        <a class="nav-link scrollto" href="">Accueil</a>
+                        <a class="nav-link scrollto {% if app.request.get('_route') == 'app_home' %} active {% endif %}" href="{{ path('app_home') }}">Accueil</a>
                     </li>
                     <li>
-                        <a class="nav-link scrollto" href="">Figures</a>
+                        <a class="nav-link scrollto" href="{{ path('app_home') }}#tricks">Figures</a>
                     </li>
                     <li>
                         <a class="nav-link {% if app.request.get('_route') == 'app_register' %} active {% endif %}" href="{{ path('app_register') }}">Inscription</a>
@@ -60,12 +61,12 @@
         <nav id="navbar" class="navbar navbar-mobile fixed-bottom d-block d-lg-none">
             <ul>
                 <li>
-                    <a class="nav-link scrollto" href="">
+                    <a class="nav-link scrollto {% if app.request.get('_route') == 'app_home' %} active {% endif %}" href="{{ path('app_home') }}">
                         <i class="bi bi-house-door-fill"></i>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link scrollto" href="">
+                    <a class="nav-link scrollto" href="{{ path('app_home') }}#tricks">
                         <i class="bi bi-snow2"></i>
                     </a>
                 </li>

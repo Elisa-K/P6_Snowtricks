@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ST - Accueil{% endblock %}
+
+{% block body %}
+
+<!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div class="hero-container">
+		<img src="{{ asset('assets/img/logo.png') }}" alt="">
+      <h1 class="txt-logo">Snowtricks</h1>
+      <h2>Lorem ipsum dolor sit amet</h2>
+      <a href="{{ path('app_home') }}#tricks" class="btn-get-started scrollto"><i class="bi bi-arrow-down"></i></a>
+    </div>
+  </section><!-- End Hero -->
+
+  <!-- ======= Tricks Section ======= -->
+    <section id="tricks" class="tricks">
+      <div class="container">
+
+        <div class="row">
+          {% for trick in tricks %}
+            {% include 'trick/_trickCard.html.twig' %}
+          {% endfor %}
+        </div>
+
+        <div class="col-lg-12 text-center">
+          <a href="#" class="btn-learn-more">Voir plus</a>
+        </div>
+      </div>
+    </section><!-- End Tricks Section -->
+
+    <a href="{{ path('app_home') }}#tricks" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+{% endblock %}
