@@ -15,4 +15,11 @@ class TrickController extends AbstractController
         $tricks = $trickRepository->findBy([], ['createdAt' => 'DESC']);
         return $this->render('home/index.html.twig', compact('tricks'));
     }
+
+    #[Route('/tricks/details/{slug}', name: 'app_trick_show')]
+    public function show(string $slug, TrickRepository $trickRepository): Response
+    {
+        $trick = $trickRepository->findOneBy(['slug' => $slug]);
+        return $this->render('trick/show.html.twig', compact('trick'));
+    }
 }

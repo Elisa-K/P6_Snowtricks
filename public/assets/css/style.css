@@ -432,7 +432,7 @@ section {
 }
 
 /*--------------------------------------------------------------
-# About
+# All Tricks (homepage)
 --------------------------------------------------------------*/
 
 .tricks .trick {
@@ -518,16 +518,28 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Blog
+# Trick Single
 --------------------------------------------------------------*/
 .trick-single {
   padding: 100px 0 20px 0;
+  position: relative;
+}
+
+.trick-single:before {
+  content: '';
+  position: absolute;
+  height: 600px;
+  background-color: var(--color-dark);
+  width: 100%;
+  top: 0;
+  z-index: -1;
 }
 
 .trick-single .entry {
   padding: 30px;
   margin-bottom: 60px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
 .trick-single .entry .entry-img {
@@ -535,6 +547,16 @@ section {
   margin: -30px -30px 20px -30px;
   overflow: hidden;
   position: relative;
+}
+
+.trick-single .entry .entry-img:before{
+  content: "";
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .trick-single .entry .entry-img img {
@@ -545,12 +567,16 @@ section {
   position: absolute;
   width: 100%;
   top: 50%;
+  transform: translateY(-50%);
   color: #fff;
   text-align: center;
 }
 
 .trick-single .entry .entry-img .trick-info>h2{
   font-weight: 700;
+  font-family: 'Covered By Your Grace', cursive;
+  font-size: 4em;
+  text-transform: uppercase;
 }
 
 .trick-single .entry .entry-img .trick-action{
@@ -589,6 +615,35 @@ section {
   color: #e43c5c;
 }
 
+.trick-single .entry .entry-media h3 {
+  font-size: 22px;
+  margin-top: 30px;
+  font-weight: bold;
+}
+
+.trick-single .entry .entry-media img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.trick-single .entry .entry-media .video {
+  position: relative;
+}
+
+.trick-single .entry .entry-media .video img {
+  filter: brightness(0.5);
+}
+
+.trick-single .entry .entry-media .video i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 50px;
+}
+
 .trick-single .entry .entry-meta {
   margin-bottom: 15px;
   color: #b1a0a3;
@@ -608,8 +663,8 @@ section {
   font-size: 10px;
   padding: 8px 20px;
   line-height: 1;
-  margin: 0 5px;
-  background: var(--color-secondary);
+  margin: 10px 5px 0;
+  background: var(--color-light);
   display: inline-block;
   text-transform: uppercase;
   border-radius: 50px;
@@ -626,7 +681,7 @@ section {
   color: #fff;
 }
 
-.trick-single .entry .entry-meta a {
+.trick-single .entry .entry-meta li{
   color: #fff;
   font-size: 14px;
   display: inline-block;
@@ -949,155 +1004,25 @@ section {
   color: #fff;
 }
 
-.trick-single .sidebar {
-  padding: 30px;
-  margin: 0 0 60px 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+@media(max-width:991px) {
+  .trick-single .entry .entry-media #medias{
+    display:none;
+  }
 }
 
-.trick-single .sidebar .sidebar-title {
-  font-size: 20px;
-  font-weight: 700;
-  padding: 0 0 0 0;
-  margin: 0 0 15px 0;
-  color: #493c3e;
-  position: relative;
-}
+@media(max-width:768px) {
 
-.trick-single .sidebar .sidebar-item {
-  margin-bottom: 30px;
-}
+  .trick-single {
+    padding: 20px 0;
+  }
 
-.trick-single .sidebar .search-form form {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 3px 10px;
-  position: relative;
-}
+  .trick-single .entry .entry-img .trick-info>h2{
+    font-size: 2.5em;
+  }
 
-.trick-single .sidebar .search-form form input[type=text] {
-  border: 0;
-  padding: 4px;
-  border-radius: 4px;
-  width: calc(100% - 40px);
-}
 
-.trick-single .sidebar .search-form form button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  border: 0;
-  background: none;
-  font-size: 16px;
-  padding: 0 15px;
-  margin: -1px;
-  background: #e43c5c;
-  color: #fff;
-  transition: 0.3s;
-  border-radius: 0 4px 4px 0;
-  line-height: 0;
-}
 
-.trick-single .sidebar .search-form form button i {
-  line-height: 0;
 }
-
-.trick-single .sidebar .search-form form button:hover {
-  background: #e64e6b;
-}
-
-.trick-single .sidebar .categories ul {
-  list-style: none;
-  padding: 0;
-}
-
-.trick-single .sidebar .categories ul li+li {
-  padding-top: 10px;
-}
-
-.trick-single .sidebar .categories ul a {
-  color: #493c3e;
-  transition: 0.3s;
-}
-
-.trick-single .sidebar .categories ul a:hover {
-  color: #e43c5c;
-}
-
-.trick-single .sidebar .categories ul a span {
-  padding-left: 5px;
-  color: #aaaaaa;
-  font-size: 14px;
-}
-
-.trick-single .sidebar .recent-posts .post-item+.post-item {
-  margin-top: 15px;
-}
-
-.trick-single .sidebar .recent-posts img {
-  width: 80px;
-  float: left;
-}
-
-.trick-single .sidebar .recent-posts h4 {
-  font-size: 15px;
-  margin-left: 95px;
-  font-weight: bold;
-}
-
-.trick-single .sidebar .recent-posts h4 a {
-  color: #493c3e;
-  transition: 0.3s;
-}
-
-.trick-single .sidebar .recent-posts h4 a:hover {
-  color: #e43c5c;
-}
-
-.trick-single .sidebar .recent-posts time {
-  display: block;
-  margin-left: 95px;
-  font-style: italic;
-  font-size: 14px;
-  color: #aaaaaa;
-}
-
-.trick-single .sidebar .tags {
-  margin-bottom: -10px;
-}
-
-.trick-single .sidebar .tags ul {
-  list-style: none;
-  padding: 0;
-}
-
-.trick-single .sidebar .tags ul li {
-  display: inline-block;
-}
-
-.trick-single .sidebar .tags ul a {
-  color: #8e767a;
-  font-size: 14px;
-  padding: 6px 14px;
-  margin: 0 6px 8px 0;
-  border: 1px solid #f6f4f4;
-  display: inline-block;
-  transition: 0.3s;
-}
-
-.trick-single .sidebar .tags ul a:hover {
-  color: #fff;
-  border: 1px solid #e43c5c;
-  background: #e43c5c;
-}
-
-.trick-single .sidebar .tags ul a span {
-  padding-left: 5px;
-  color: #dfd8d9;
-  font-size: 14px;
-}
-
 /*--------------------------------------------------------------
 # Signup
 --------------------------------------------------------------*/

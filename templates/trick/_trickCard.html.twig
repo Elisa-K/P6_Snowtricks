@@ -1,13 +1,13 @@
 <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
 	<div class="trick">
-		<a href="" class="trick-img">
+		<a href="{{ path('app_trick_show', {slug: trick.slug}) }}" class="trick-img">
 		<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}" class="img-fluid" alt="{{ trick.name }}">
 		</a>
 		<div class="trick-info">
 		<div class="trick-group">
 			<h2>{{ trick.groupTrick.name }}</h2>
 		</div>
-		<a href=""><h4>{{ trick.name }}</h4></a>
+		<a href="{{ path('app_trick_show', {slug: trick.slug}) }}"><h4>{{ trick.name }}</h4></a>
 
 		{# TODO display button only for connected user #}
 
