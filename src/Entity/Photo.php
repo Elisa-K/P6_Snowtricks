@@ -13,14 +13,14 @@ class Photo
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $path = null;
+    private string $path;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
-    private ? Trick $trick = null;
+    private Trick $trick;
 
     public function getId(): ?int
     {
@@ -39,12 +39,12 @@ class Photo
         return $this;
     }
 
-    public function getTrick(): ? Trick
+    public function getTrick(): ?Trick
     {
         return $this->trick;
     }
 
-    public function setTrick(? Trick $trick): self
+    public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
 

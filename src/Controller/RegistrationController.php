@@ -10,16 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/registration', name: 'app_register')]
+    #[Route('/registration', name: 'app_register', methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $form = $this->createForm(RegistrationFormType::class, $user)->handleRequest($request);
+        // $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -39,7 +38,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form,
         ]);
     }
 }

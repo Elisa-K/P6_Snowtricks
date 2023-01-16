@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Constraints\Email;
 
 class RegistrationFormType extends AbstractType
 {
@@ -36,7 +37,8 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez renseigner un email.',
-                    ])
+                    ]),
+                    new Email()
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [

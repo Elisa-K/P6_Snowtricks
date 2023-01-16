@@ -16,22 +16,22 @@ class Trick
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255, unique: true)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    private string $description;
 
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    private string $slug;
 
     #[ORM\Column(length: 255)]
-    private ?string $featuredImage = null;
+    private string $featuredImage;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
@@ -44,13 +44,13 @@ class Trick
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?GroupTrick $groupTrick = null;
+    private GroupTrick $groupTrick;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
+    private User $author;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class)]
     private Collection $comments;
 
     public function __construct()
@@ -234,27 +234,5 @@ class Trick
     public function getComments(): Collection
     {
         return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setTrick($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getTrick() === $this) {
-                $comment->setTrick(null);
-            }
-        }
-
-        return $this;
     }
 }

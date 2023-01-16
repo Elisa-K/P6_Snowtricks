@@ -15,21 +15,21 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $content = null;
+    private string $content;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
+    private User $author;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Trick $trick = null;
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private Trick $trick;
 
     public function __construct()
     {
