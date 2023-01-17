@@ -96,6 +96,13 @@ h6 {
   top: 200px;
   min-width: 300px;
 }
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+}
+
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
@@ -191,6 +198,11 @@ h6 {
   position: relative;
 }
 
+.navbar li .avatar{
+  margin-right: 10px;
+  border: 1px solid #fff;
+}
+
 .navbar>ul>li {
   white-space: nowrap;
   padding: 10px 0 10px 24px;
@@ -238,6 +250,60 @@ h6 {
   color: #fff;
 }
 
+.navbar .dropdown ul {
+  display: block;
+  position: absolute;
+  left: 24px;
+  top: calc(100% + 30px);
+  margin: 0;
+  padding: 10px 0;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  background: #fff;
+  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+  transition: 0.3s;
+}
+
+.navbar .dropdown ul li {
+  min-width: 200px;
+}
+
+.navbar .dropdown ul a {
+  padding: 10px 20px;
+  font-size: 14px;
+  text-transform: none;
+  color: #493c3e;
+}
+
+.navbar .dropdown ul a i {
+  font-size: 12px;
+}
+
+.navbar .dropdown ul a:hover,
+.navbar .dropdown ul .active:hover,
+.navbar .dropdown ul li:hover>a {
+  color: var(--color-light);
+}
+
+.navbar .dropdown:hover>ul {
+  opacity: 1;
+  top: 100%;
+  visibility: visible;
+}
+
+.navbar .dropdown .dropdown ul {
+  top: 0;
+  left: calc(100% - 30px);
+  visibility: hidden;
+}
+
+.navbar .dropdown .dropdown:hover>ul {
+  opacity: 1;
+  top: 0;
+  left: 100%;
+  visibility: visible;
+}
 /**
 * Mobile Navigation
 */
@@ -270,6 +336,11 @@ h6 {
 .navbar-mobile .active:focus,
 .navbar-mobile li:hover>a {
   color: #333;
+}
+
+.navbar-mobile li .avatar{
+  margin-right: 0px;
+  border: none;
 }
 /*--------------------------------------------------------------
 # Hero Section
@@ -1023,6 +1094,7 @@ section {
 
 
 }
+
 /*--------------------------------------------------------------
 # Signup
 --------------------------------------------------------------*/
@@ -1049,6 +1121,34 @@ section {
     font-size: 75px;
   }
 }
+
+/*--------------------------------------------------------------
+# Signin
+--------------------------------------------------------------*/
+.signin{
+  display: flex;
+  align-items: center;
+  height:100%;
+}
+
+.signin .logo{
+  width: 120px;
+  filter: brightness(0.3);
+}
+
+.signin .txt-logo{
+  font-size: 95px;
+}
+.form-signin{
+  max-width: 450px;
+}
+
+@media(max-width: 768px){
+  .signin .txt-logo{
+    font-size: 75px;
+  }
+}
+
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/

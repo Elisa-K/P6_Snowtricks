@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ST - {{ trick.name }}{% endblock %}
+{% block title %}SnowTricks - {{ trick.name }}{% endblock %}
 
 {% block body %}
 
@@ -18,12 +18,15 @@
 							<h2>{{ trick.name }}</h2>
 						</div>
 
-						{# TODO display button only for connected user #}
+						{% if app.user %}
+							<div class="trick-action">
+								<a href="" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
+								{% if app.user == trick.author %}
+									<a href="" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
+								{% endif %}
+							</div>
+						{% endif %}
 
-						{# <div class="trick-action">
-							<a href="add-trick.html" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
-							<a href="add-trick.html" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
-						</div> #}
 						<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}" alt="{{ trick.name }}" class="img-fluid">
 					</div>
 
