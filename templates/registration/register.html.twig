@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ST - Inscription{% endblock %}
+
+{% block body %}
+    <section class="signup text-center">
+        <div class="form-signup w-100 m-auto">
+            <img src="{{ asset('assets/img/logo.png') }}" alt="logo-snowtricks" class="logo mb-3">
+            <h1 class="txt-logo">Snowtricks</h1>
+            <h3 class="fw-bold">Inscription</h3>
+            <div class="card shadow mt-3">
+                <div class="card-body p-5">
+
+                {{ form_start(registrationForm) }}
+                    {{ form_row(registrationForm.username) }}
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.plainPassword) }}
+
+                    <button type="submit" class="btn btn-primary">Créer mon compte</button>
+                {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ST - {{ trick.name }}{% endblock %}
+
+{% block body %}
+
+<section id="trick-single" class="trick-single">
+	<div class="container" data-aos="fade-up">
+		<div class="row">
+			<div class="col-lg-12 entries">
+				<article class="entry entry-single">
+
+					<div class="entry-img">
+						<div class="trick-info">
+							<div class="trick-group">
+								<h2>{{ trick.groupTrick.name }}</h2>
+							</div>
+							<h2>{{ trick.name }}</h2>
+						</div>
+
+						{# TODO display button only for connected user #}
+
+						{# <div class="trick-action">
+							<a href="add-trick.html" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
+							<a href="add-trick.html" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
+						</div> #}
+						<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}" alt="{{ trick.name }}" class="img-fluid">
+					</div>
+
+					<div class="entry-media">
+						<div id="medias" class="row">
+						<h3>Gallerie</h3>
+						{% for photo in trick.photos %}
+							<a href="{{ asset('assets/uploads/') ~ photo.path }}" data-toggle="lightbox" data-gallery="mixedgallery" class="col-6 col-md-4 col-xl-3 mt-2 text-center">
+								<img src="{{ asset('assets/uploads/') ~ photo.path }}">
+							</a>
+						{% endfor %}
+
+						{% for video in trick.videos %}
+							<a href="{{ video.embed }}" data-toggle="lightbox" data-gallery="mixedgallery" class="col-6 col-md-4 col-xl-3 mt-2 text-center">
+								<div class="video">
+									<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}">
+									<i class="bi bi-play-btn-fill"></i>
+								</div>
+							</a>
+						{% endfor %}
+						</div>
+						<button id="seeMedias" class="btn btn-sm btn-primary d-block d-lg-none">Voir la gallerie</button>
+					</div>
+
+					<div class="entry-content">
+						<h3>Description</h3>
+						<p>
+							{{ trick.description }}
+						</p>
+					</div>
+
+					<div class="entry-meta">
+						<ul>
+						<li class="d-flex align-items-center"><i class="bi bi-person"></i>{{ trick.author.username }}</li>
+						<li class="d-flex align-items-center"><i class="bi bi-clock"></i>{{ trick.createdAt|date("d/m/Y \\à\\ H:i") }}</li>
+						{% if trick.updatedAt is not empty %}
+						<li class="d-flex align-items-center"><i class="bi bi-pencil"></i>{{ trick.updatedAt|date("d/m/Y \\à\\ H:i") }}</li>
+						{% endif %}
+						<li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i>{{ pluralize(trick.comments|length, 'commentaire', 'commentaires' )}}</li>
+						</ul>
+					</div>
+
+					<!-- ======= Comments Section ======= -->
+					<div class="blog-comments">
+					</div><!-- End Comments Section -->
+
+
+				</article><!-- End blog entry -->
+			</div>
+		</div>
+	</div>
+</section><!-- End Trick Single Section -->
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.2/dist/index.bundle.min.js"></script>
+{% endblock %}
