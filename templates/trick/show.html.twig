@@ -21,7 +21,7 @@
 						{% if app.user %}
 							<div class="trick-action">
 								<a href="" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
-								{% if app.user == trick.author %}
+								{% if app.user.id == trick.author.id %}
 									<a href="" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
 								{% endif %}
 							</div>
@@ -54,7 +54,7 @@
 					<div class="entry-content">
 						<h3>Description</h3>
 						<p>
-							{{ trick.description }}
+							{{ trick.description|nl2br }}
 						</p>
 					</div>
 
@@ -69,16 +69,52 @@
 						</ul>
 					</div>
 
-					<!-- ======= Comments Section ======= -->
-					<div class="blog-comments">
-					</div><!-- End Comments Section -->
+					{# <!-- ======= Comments Section ======= --> #}
+					<div class="trick-comments">
+						<div class="reply-form mb-5">
+							{% if app.user %}
+								<h4>Laisser un commentaire</h4>
+								{{ form_start(commentForm) }}
+									{{ form_row(commentForm.content) }}
+									<button type="submit" class="btn btn-primary">Poster mon commentaire</button>
+								{{ form_end(commentForm) }}
+							{% else %}
+								<hr>
+								<h4 class="text-center"><a href="{{ path('app_login') }}">Connectez-vous</a> pour poster un commentaire.</h4>
+								<hr>
+							{% endif %}
+						</div>
 
+						<h4 class="comments-count">{{ pluralize(trick.comments|length, 'commentaire', 'commentaires' )}}</h4>
 
-				</article><!-- End blog entry -->
+						{% for comment in trick.comments %}
+							<div class="comment">
+								<div class="d-flex">
+									<div class="comment-avatar">
+										<img src="{{ asset('assets/img/default_avatar.jpg')}}" alt="{{ comment.author.username }}">
+									</div>
+									<div>
+										<h5>{{ comment.author.username }}</h5>
+										<span>{{ comment.createdAt|date("d/m/Y \\à\\ H:i") }}</span>
+										<p>
+											{{ comment.content|nl2br }}
+										</p>
+									</div>
+								</div>
+							 </div>{# <!-- End comment #1 --> #}
+						{% endfor %}
+
+						<div class="col-lg-12 mt-4 text-center">
+							<a href="#" class="btn-learn-more">Voir plus</a>
+						</div>
+
+					 </div>{# <!-- End Comments Section --> #}
+
+				 </article>{# <!-- End blog entry --> #}
 			</div>
 		</div>
 	</div>
-</section><!-- End Trick Single Section -->
+ </section>{# <!-- End Trick Single Section --> #}
 
 {% endblock %}
 

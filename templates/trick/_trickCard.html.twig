@@ -12,7 +12,7 @@
 		{% if app.user %}
 			<div class="trick-action">
 				<a href="" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
-				{% if app.user == trick.author %}
+				{% if app.user.id == trick.author.id %}
 					<a href="" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
 				{% endif %}
 			</div>
