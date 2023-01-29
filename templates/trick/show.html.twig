@@ -9,7 +9,6 @@
 		<div class="row">
 			<div class="col-lg-12 entries">
 				<article class="entry entry-single">
-
 					<div class="entry-img">
 						<div class="trick-info">
 							<div class="trick-group">
@@ -27,22 +26,22 @@
 							</div>
 						{% endif %}
 
-						<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}" alt="{{ trick.name }}" class="img-fluid">
+						<img src="{{ asset('uploads/') ~ trick.featuredImage }}" alt="{{ trick.name }}" class="img-fluid">
 					</div>
 
 					<div class="entry-media">
 						<div id="medias" class="row">
 						<h3>Gallerie</h3>
 						{% for photo in trick.photos %}
-							<a href="{{ asset('assets/uploads/') ~ photo.path }}" data-toggle="lightbox" data-gallery="mixedgallery" class="col-6 col-md-4 col-xl-3 mt-2 text-center">
-								<img src="{{ asset('assets/uploads/') ~ photo.path }}">
+							<a href="{{ asset('uploads/') ~ photo.path }}" data-toggle="lightbox" data-gallery="mixedgallery" class="col-6 col-md-4 col-xl-3 mt-2 text-center">
+								<img src="{{ asset('uploads/') ~ photo.path }}">
 							</a>
 						{% endfor %}
 
 						{% for video in trick.videos %}
 							<a href="{{ video.embed }}" data-toggle="lightbox" data-gallery="mixedgallery" class="col-6 col-md-4 col-xl-3 mt-2 text-center">
 								<div class="video">
-									<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}">
+									<img src="{{ asset('uploads/') ~ trick.featuredImage }}">
 									<i class="bi bi-play-btn-fill"></i>
 								</div>
 							</a>
@@ -65,27 +64,29 @@
 						{% if trick.updatedAt is not empty %}
 						<li class="d-flex align-items-center"><i class="bi bi-pencil"></i>{{ trick.updatedAt|date("d/m/Y \\à\\ H:i") }}</li>
 						{% endif %}
-						<li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i>{{ pluralize(trick.comments|length, 'commentaire', 'commentaires' )}}</li>
+						<li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i>{{ inflector(trick.comments|length, 'commentaire') }}</li>
 						</ul>
 					</div>
 
 					{# <!-- ======= Comments Section ======= --> #}
 					<div class="trick-comments">
-						<div class="reply-form mb-5">
-							{% if app.user %}
+
+						{% if commentForm is defined %}
+							<div class="reply-form mb-5">
 								<h4>Laisser un commentaire</h4>
 								{{ form_start(commentForm) }}
 									{{ form_row(commentForm.content) }}
 									<button type="submit" class="btn btn-primary">Poster mon commentaire</button>
 								{{ form_end(commentForm) }}
-							{% else %}
-								<hr>
-								<h4 class="text-center"><a href="{{ path('app_login') }}">Connectez-vous</a> pour poster un commentaire.</h4>
-								<hr>
-							{% endif %}
-						</div>
+							</div>
+						{% else %}
+								<hr class="mt-5">
+								<h4 class="text-center"><a class="text-primary fw-bold" href="{{ path('app_login') }}">Connectez-vous</a> pour poster un commentaire.</h4>
+								<hr class="mb-5">
+						{% endif %}
 
-						<h4 class="comments-count">{{ pluralize(trick.comments|length, 'commentaire', 'commentaires' )}}</h4>
+
+						<h4 class="comments-count">{{ inflector(trick.comments|length, 'commentaire') }}</h4>
 
 						{% for comment in trick.comments %}
 							<div class="comment">

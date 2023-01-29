@@ -2,21 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\TrickRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TrickRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\Table("tricks")]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['name'], message: 'Cette figure est déjà existante.')]
 class Trick
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private int $id;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
     private string $name;
@@ -66,7 +68,7 @@ class Trick
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -78,7 +80,7 @@ class Trick
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -90,7 +92,7 @@ class Trick
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -102,7 +104,7 @@ class Trick
         return $this;
     }
 
-    public function getFeaturedImage(): ?string
+    public function getFeaturedImage(): string
     {
         return $this->featuredImage;
     }
@@ -114,7 +116,7 @@ class Trick
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -165,7 +167,6 @@ class Trick
     public function removePhoto(Photo $photo): self
     {
         if ($this->photos->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
             if ($photo->getTrick() === $this) {
                 $photo->setTrick(null);
             }
@@ -195,7 +196,6 @@ class Trick
     public function removeVideo(Video $video): self
     {
         if ($this->videos->removeElement($video)) {
-            // set the owning side to null (unless already changed)
             if ($video->getTrick() === $this) {
                 $video->setTrick(null);
             }
@@ -204,24 +204,24 @@ class Trick
         return $this;
     }
 
-    public function getGroupTrick(): ?GroupTrick
+    public function getGroupTrick(): GroupTrick
     {
         return $this->groupTrick;
     }
 
-    public function setGroupTrick(?GroupTrick $groupTrick): self
+    public function setGroupTrick(GroupTrick $groupTrick): self
     {
         $this->groupTrick = $groupTrick;
 
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
 

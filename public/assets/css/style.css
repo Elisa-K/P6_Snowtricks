@@ -87,6 +87,17 @@ h6 {
   border-color: var(--color-default) !important;
 }
 
+.btn-outline-primary{
+  color: var(--color-default) !important;
+  border-color: var(--color-default) !important;
+}
+
+.btn-outline-primary:hover{
+  color: #fff !important;
+  background-color: var(--color-default) !important;
+  border-color: var(--color-default) !important;
+}
+
 .invalid-feedback{
   text-align: left;
 }
@@ -1002,7 +1013,7 @@ section {
 
 .trick-single .trick-comments .reply-form textarea:focus {
   box-shadow: none;
-  border-color: #f096a7;
+  border-color: var(--color-light);
 }
 
 .trick-single .trick-comments .reply-form .form-group {
@@ -1095,6 +1106,32 @@ section {
 
 
 
+}
+/*--------------------------------------------------------------
+# Trick Form
+--------------------------------------------------------------*/
+.img-preview{
+  width: 250px;
+}
+
+.photos, .videos {
+  margin-bottom: 0;
+  list-style: none;
+  padding-left: 0;
+}
+
+.photos li, .videos li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.photos li div:nth-child(2), .videos li div:nth-child(2) {
+  flex: 1;
+}
+
+.photos li div:nth-child(2) div, .videos li div:nth-child(2) div{
+  margin-bottom: 0!important;
 }
 
 /*--------------------------------------------------------------

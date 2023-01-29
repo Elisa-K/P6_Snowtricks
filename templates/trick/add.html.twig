@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks - Ajouter une figure{% endblock %}
+
+{% block body %}
+<section class="trick-single">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 entries">
+				<div class="entry entry-single w-100 m-auto">
+					<div class="form-trick">
+        				<h1 class="txt-logo text-center fs-3 mb-1">Snowtricks</h1>
+						<h3 class="fw-bold text-center mb-5 ">Ajouter une figure</h3>
+						{{ form_start(trickForm) }}
+						<div class="row">
+							<div class="col-12 col-lg-4">
+								{{ form_row(trickForm.groupTrick) }}
+							</div>
+							<div class="col-12 col-lg-8">
+								{{ form_row(trickForm.name) }}
+							</div>
+							<div class="col-12">
+								{{ form_row(trickForm.description, { 'attr': {'rows': '10'} }) }}
+							</div>
+							<div class="col-12 col-lg-8">
+								{{ form_row(trickForm.featuredImage) }}
+							</div>
+							<div class="col-12 col-lg-4">
+								<img id="img-preview-featured" src="" alt="" class="img-fluid img-preview">
+							</div>
+							<div class="col-12">
+								{{ form_label(trickForm.photos) }}
+								<ul class="photos" data-prototype="{{ form_widget(trickForm.photos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.photos|length }}"></ul>
+								{% do trickForm.photos.setRendered %}
+								<button type="button" class="btn btn-outline-primary add-photo mb-3" data-list-selector="photos">Ajouter une photo</button>
+							</div>
+							<div class="col-12">
+								{{ form_label(trickForm.videos) }}
+								<ul class="videos" data-prototype="{{ form_widget(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}"></ul>
+								{% do trickForm.videos.setRendered %}
+								<button type="button" class="btn btn-outline-primary add-video mb-3" data-list-selector="videos">Ajouter une video</button>
+							</div>
+							<div class="col-12 text-end">
+								{{ form_row(trickForm.save) }}
+							</div>
+						</div>
+
+
+
+
+
+
+
+
+
+
+
+					{{ form_end(trickForm) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</section>
+{% endblock %}
+
+
+{% block javascripts %}
+	<script src="{{ asset('assets/js/addTrick.js')}}" defer></script>
+{% endblock %}

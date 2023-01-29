@@ -14,14 +14,14 @@ class Video
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private int $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private string $embed;
 
     #[ORM\ManyToOne(inversedBy: 'videos')]
     #[ORM\JoinColumn(nullable: false)]
-    private Trick $trick;
+    private ?Trick $trick = null;
 
     public function getId(): ?int
     {
