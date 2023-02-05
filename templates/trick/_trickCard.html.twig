@@ -11,7 +11,7 @@
 
 		{% if app.user %}
 			<div class="trick-action">
-				<a href="" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
+				<a href="{{ path('app_trick_edit', {slug:trick.slug}) }}" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
 				{% if app.user.id == trick.author.id %}
 					<a href="" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
 				{% endif %}

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Video;
+use App\Validator\VideoURL;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Hostname;
@@ -19,8 +20,9 @@ class VideoType extends AbstractType
 		$builder->add('embed', UrlType::class, [
 			'label' => false,
 			'help' => 'URL youtube ou dailymotion',
-			'default_protocol' => 'https',
-			'required' => false
+			'constraints' => [
+				new VideoURL()
+			]
 		]);
 	}
 

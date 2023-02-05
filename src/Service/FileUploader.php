@@ -2,9 +2,10 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FileUploader
 {
@@ -28,6 +29,12 @@ class FileUploader
 			return null;
 		}
 		return $fileName;
+	}
+
+	public function delete(string $path): void
+	{
+		$fileSystem = new Filesystem();
+		$fileSystem->remove($this->getTargetDirectory() . '/' . $path);
 	}
 
 	public function getTargetDirectory(): ?string

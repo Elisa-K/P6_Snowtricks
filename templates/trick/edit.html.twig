@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SnowTricks - Ajouter une figure{% endblock %}
+{% block title %}SnowTricks - Modification - {{ trick.name }}{% endblock %}
 
 {% block body %}
 <section class="trick-single">
@@ -10,12 +10,15 @@
 				<div class="entry entry-single w-100 m-auto">
 					<div class="form-trick">
         				<h1 class="txt-logo text-center fs-3 mb-1">Snowtricks</h1>
-						<h3 class="fw-bold text-center mb-5 ">Ajouter une figure</h3>
+						<h3 class="fw-bold text-center mb-5 ">Modification</h3>
 						{{ form_start(trickForm) }}
 							<div class="row">
 								{% include 'trick/_trickForm.html.twig' %}
 								<div class="col-12 text-end">
-									<button type="submit" class="btn btn-success">Publier</button>
+									<button type="submit" class="btn btn-warning">Modifier</button>
+									{% if app.user.id == trick.author.id %}
+									<a href="" class="btn btn-danger">Supprimer</a>
+								{% endif %}
 								</div>
 							{{ form_widget(trickForm._token) }}
 							</div>

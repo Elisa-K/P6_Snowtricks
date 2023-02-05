@@ -79,7 +79,6 @@ h6 {
   -webkit-animation-delay: 0.8s;
   animation-delay: 0.8s;
   margin-top: 6px;
-  border: 2px solid var(--color-default);
 }
 
 .btn-primary{
@@ -1110,30 +1109,26 @@ section {
 /*--------------------------------------------------------------
 # Trick Form
 --------------------------------------------------------------*/
+.form-trick .form-label, .form-trick .col-form-label{
+  font-weight: bold;
+}
+
+.form-trick .btn-remove{
+  border: none;
+  background: none;
+  color: #dc3545;
+}
+
 .img-preview{
-  width: 250px;
+  width: auto;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 10px;
 }
 
-.photos, .videos {
-  margin-bottom: 0;
-  list-style: none;
-  padding-left: 0;
-}
-
-.photos li, .videos li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1em;
-}
-
-.photos li div:nth-child(2), .videos li div:nth-child(2) {
+#photos .d-flex div:first-child, #videos .d-flex div:first-child{
   flex: 1;
 }
-
-.photos li div:nth-child(2) div, .videos li div:nth-child(2) div{
-  margin-bottom: 0!important;
-}
-
 /*--------------------------------------------------------------
 # Signup
 --------------------------------------------------------------*/

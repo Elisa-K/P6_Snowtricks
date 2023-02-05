@@ -58,36 +58,16 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $photos = $form->get('photos')->getData();
-
-            foreach ($photos as $photo) {
-                $fileName = $fileUploader->upload($photo['path']);
-                if (null !== $fileName) {
-                    $photoEntity = new Photo();
-                    $photoEntity->setPath($fileName);
-                    $photoEntity->setTrick($trick);
-                    $entityManager->persist($photoEntity);
-                    $trick->addPhoto($photoEntity);
+            foreach ($trick->getPhotos() as $photo) {
+                if ($photo->file != null) {
+                    $photo->setPath($fileUploader->upload($photo->file));
+                    continue;
                 }
-            }
-
-            $videos = $form->get('videos')->getData();
-
-            foreach ($videos as $video) {
-                $video->setTrick($trick);
-                $entityManager->persist($video);
+                $trick->removePhoto($photo);
             }
 
             $featuredImg = $form->get('featuredImage')->getData();
-
-            if ($featuredImg) {
-                $fileName = $fileUploader->upload($featuredImg);
-                if (null !== $fileName) {
-                    $trick->setFeaturedImage($fileName);
-                }
-            } else {
-                $trick->setFeaturedImage($trick->getPhotos()->first()->getPath());
-            }
+            $trick->setFeaturedImage($fileUploader->upload($featuredImg));
 
             $trick
                 ->setAuthor($this->getUser())
@@ -100,5 +80,47 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
         }
         return $this->render('trick/add.html.twig', ['trickForm' => $form]);
+    }
+
+    #[Route('/tricks/edit/{slug}', name: 'app_trick_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function edit(Trick $trick, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    {
+        $photos = $trick->getPhotos();
+        $oldPhotos = clone $photos;
+        $oldFeaturedImg = $trick->getFeaturedImage();
+        $form = $this->createForm(TrickFormType::class, $trick)->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($photos as $photo) {
+                if (!$photo->getId()) {
+                    $photo->setPath($fileUploader->upload($photo->file));
+                    $photo->setTrick($trick);
+                }
+            }
+
+            foreach ($oldPhotos as $photo) {
+                if (!$trick->getPhotos()->contains($photo)) {
+                    $fileUploader->delete($photo->getPath());
+                }
+            }
+
+            $featuredImg = $form->get('featuredImage')->getData();
+            if ($featuredImg != null) {
+                $trick->setFeaturedImage($fileUploader->upload($featuredImg));
+                $fileUploader->delete($oldFeaturedImg);
+            }
+
+
+            $trick->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->persist($trick);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
+
+        }
+
+
+        return $this->render('trick/edit.html.twig', ['trickForm' => $form, 'trick' => $trick]);
     }
 }

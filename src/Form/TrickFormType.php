@@ -7,12 +7,15 @@ use App\Form\PhotoType;
 use App\Form\VideoType;
 use App\Entity\GroupTrick;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,9 +27,15 @@ class TrickFormType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options): void
 	{
+		$object = $options['data'] ?? null;
+		$isEdit = $object && $object->getId();
+
 		$builder->add('name', TextType::class, [
 			'label' => 'Nom *',
 			'required' => true,
+			'attr' => [
+				'readonly' => $isEdit
+			],
 			'constraints' => [
 				new NotBlank([
 					'message' => 'Veuillez renseigner le nom de la figure.'
@@ -35,9 +44,10 @@ class TrickFormType extends AbstractType
 					'min' => 2,
 					'minMessage' => 'Le nom de la figure doit être composé de {{ limit }} caractères minimum.',
 					'max' => 255,
-				]),
+				])
 			]
 		]);
+
 		$builder->add('description', TextareaType::class, [
 			'label' => 'Description *',
 			'constraints' => [
@@ -57,8 +67,9 @@ class TrickFormType extends AbstractType
 			'placeholder' => 'Choisir un groupe'
 		]);
 		$builder->add('featuredImage', FileType::class, [
-			'required' => false,
-			'label' => 'Image à la une',
+			'required' => !$isEdit,
+			'mapped' => false,
+			'label' => 'Image à la une *',
 			'constraints' => [
 				new File([
 					'maxSize' => '2M',
@@ -72,27 +83,30 @@ class TrickFormType extends AbstractType
 		]);
 		$builder->add('photos', CollectionType::class, [
 			'entry_type' => PhotoType::class,
-			'label' => 'Photos *',
+			'label' => 'Photos',
 			'allow_add' => true,
-			'mapped' => false,
 			'allow_delete' => true,
-			'prototype' => true
+			'prototype' => true,
+			'by_reference' => true,
+			'error_bubbling' => false
 		]);
 
 		$builder->add('videos', CollectionType::class, [
 			'entry_type' => VideoType::class,
 			'label' => 'Vidéos',
 			'allow_add' => true,
-			'mapped' => false,
 			'allow_delete' => true,
-			'prototype' => true
-		]);
-
-		$builder->add('save', SubmitType::class, [
-			'label' => 'Publier',
-			'attr' => [
-				'class' => 'btn-primary'
-			]
+			'prototype' => true,
+			'by_reference' => true,
+			'error_bubbling' => false
 		]);
 	}
+
+	public function configureOptions(OptionsResolver $resolver)
+	{
+		$resolver->setDefaults([
+			'data-class' => Trick::class
+		]);
+	}
+
 }
