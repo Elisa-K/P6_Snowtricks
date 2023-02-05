@@ -76,7 +76,7 @@ class TrickController extends AbstractController
 
             $entityManager->persist($trick);
             $entityManager->flush();
-
+            $this->addFlash('success', 'La figure ' . $trick->getName() . ' est publiée avec succès !');
             return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
         }
         return $this->render('trick/add.html.twig', ['trickForm' => $form]);
@@ -112,15 +112,45 @@ class TrickController extends AbstractController
                 $fileUploader->delete($oldFeaturedImg);
             }
 
-
             $trick->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->persist($trick);
             $entityManager->flush();
+
+            $this->addFlash('success', 'La figure ' . $trick->getName() . ' a été modifié avec succès !');
             return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
 
         }
 
-
         return $this->render('trick/edit.html.twig', ['trickForm' => $form, 'trick' => $trick]);
     }
+
+    #[Route('/tricks/delete/{id}', name: 'app_trick_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
+    public function delete(Trick $trick, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    {
+        if ($this->isCsrfTokenValid('delete-' . $trick->getId(), $request->get('_token')) && $trick->getAuthor() === $this->getUser()) {
+
+            $photos = $trick->getPhotos();
+            $feturedImg = $trick->getFeaturedImage();
+
+            if ($photos) {
+                foreach ($photos as $photo) {
+                    $fileUploader->delete($photo->getPath());
+                }
+            }
+
+            $fileUploader->delete($feturedImg);
+
+            $entityManager->remove($trick);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La figure a été supprimée avec succès !');
+
+        } else {
+            $this->addFlash('error', 'Une erreur s\'est produite, la figure n\'a pu être supprimée !');
+        }
+
+        return $this->redirectToRoute('app_home');
+    }
+
 }

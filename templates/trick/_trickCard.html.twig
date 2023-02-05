@@ -13,7 +13,8 @@
 			<div class="trick-action">
 				<a href="{{ path('app_trick_edit', {slug:trick.slug}) }}" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
 				{% if app.user.id == trick.author.id %}
-					<a href="" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
+					<a href="" class="btn-delete" data-bs-toggle="modal" data-bs-target="#modalDeleteTrick"><i class="bi bi-trash-fill"></i></a>
+					{% include 'trick/_modalDelete.html.twig' %}
 				{% endif %}
 			</div>
 		{% endif %}

@@ -17,7 +17,8 @@
 								<div class="col-12 text-end">
 									<button type="submit" class="btn btn-warning">Modifier</button>
 									{% if app.user.id == trick.author.id %}
-									<a href="" class="btn btn-danger">Supprimer</a>
+									<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteTrick">Supprimer</button>
+									{% include 'trick/_modalDelete.html.twig' %}
 								{% endif %}
 								</div>
 							{{ form_widget(trickForm._token) }}
