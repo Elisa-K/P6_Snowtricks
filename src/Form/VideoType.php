@@ -3,13 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Video;
-use App\Validator\VideoURL;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Hostname;
+use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 
 class VideoType extends AbstractType
@@ -21,7 +20,19 @@ class VideoType extends AbstractType
 			'label' => false,
 			'help' => 'URL youtube ou dailymotion',
 			'constraints' => [
-				new VideoURL()
+				new Callback([
+					'callback' => static function (?string $value, ExecutionContextInterface $context) {
+						$rxYoutube = '/^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/i';
+
+						$rxDailyMotion = '/^(?:https?:\/\/)?(?:www\.)?dai\.?ly(motion)?(?:\.com)?\/?.*(?:video|embed)?(?:.*v=|v\/|\/)([a-z0-9]+)?$/i';
+
+						if (!preg_match($rxYoutube, $value) && !preg_match($rxDailyMotion, $value)) {
+							$context
+								->buildViolation('Veuillez renseigner l\'url d\'une vidéo Youtube ou Dailymotion')
+								->addViolation();
+						}
+					}
+				])
 			]
 		]);
 	}

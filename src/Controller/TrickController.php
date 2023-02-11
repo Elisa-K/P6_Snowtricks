@@ -58,26 +58,26 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            foreach ($trick->getPhotos() as $photo) {
-                if ($photo->file != null) {
-                    $photo->setPath($fileUploader->upload($photo->file));
-                    continue;
-                }
-                $trick->removePhoto($photo);
-            }
+            // foreach ($trick->getPhotos() as $photo) {
+            //     if ($photo->file != null) {
+            //         $photo->setPath($fileUploader->upload($photo->file));
+            //         continue;
+            //     }
+            //     $trick->removePhoto($photo);
+            // }
 
-            $featuredImg = $form->get('featuredImage')->getData();
-            $trick->setFeaturedImage($fileUploader->upload($featuredImg));
+            // $featuredImg = $form->get('featuredImage')->getData();
+            // $trick->setFeaturedImage($fileUploader->upload($featuredImg));
 
-            $trick
-                ->setAuthor($this->getUser())
-                ->setSlug($slugger->slug($trick->getName())->lower());
+            // $trick
+            //     ->setAuthor($this->getUser())
+            //     ->setSlug($slugger->slug($trick->getName())->lower());
 
 
-            $entityManager->persist($trick);
-            $entityManager->flush();
-            $this->addFlash('success', 'La figure ' . $trick->getName() . ' est publiée avec succès !');
-            return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
+            // $entityManager->persist($trick);
+            // $entityManager->flush();
+            // $this->addFlash('success', 'La figure ' . $trick->getName() . ' est publiée avec succès !');
+            // return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
         }
         return $this->render('trick/add.html.twig', ['trickForm' => $form]);
     }
@@ -96,7 +96,6 @@ class TrickController extends AbstractController
             foreach ($photos as $photo) {
                 if (!$photo->getId()) {
                     $photo->setPath($fileUploader->upload($photo->file));
-                    $photo->setTrick($trick);
                 }
             }
 
@@ -128,26 +127,27 @@ class TrickController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function delete(Trick $trick, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
-        if ($this->isCsrfTokenValid('delete-' . $trick->getId(), $request->get('_token')) && $trick->getAuthor() === $this->getUser()) {
+        $this->denyAccessUnlessGranted('TRICK_DELETE', $trick);
+        if ($this->isCsrfTokenValid('delete-' . $trick->getId(), $request->get('_token'))) {
 
-            $photos = $trick->getPhotos();
-            $feturedImg = $trick->getFeaturedImage();
+            try {
+                $entityManager->beginTransaction();
+                $entityManager->remove($trick);
+                $entityManager->flush();
+                $entityManager->commit();
 
-            if ($photos) {
-                foreach ($photos as $photo) {
-                    $fileUploader->delete($photo->getPath());
+                $photos = $trick->getPhotos();
+                $images = array_merge([$trick->getFeaturedImage()], $photos->map(static fn($photo) => $photo->getPath())->toArray());
+
+                foreach ($images as $image) {
+                    $fileUploader->delete($image);
                 }
+
+                $this->addFlash('success', 'La figure a été supprimée avec succès !');
+            } catch (\Exception $e) {
+                $entityManager->rollback();
+                $this->addFlash('error', 'Une erreur s\'est produite, la figure n\'a pu être supprimée !');
             }
-
-            $fileUploader->delete($feturedImg);
-
-            $entityManager->remove($trick);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'La figure a été supprimée avec succès !');
-
-        } else {
-            $this->addFlash('error', 'Une erreur s\'est produite, la figure n\'a pu être supprimée !');
         }
 
         return $this->redirectToRoute('app_home');

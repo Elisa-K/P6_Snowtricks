@@ -34,7 +34,10 @@ class PhotoType extends AbstractType
 			]
 		]);
 
-		$builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
+		$builder->add('path', HiddenType::class, [
+			'required' => false,
+			'label' => false
+		]);
 	}
 
 	public function configureOptions(OptionsResolver $resolver): void
@@ -44,13 +47,4 @@ class PhotoType extends AbstractType
 		]);
 	}
 
-	public function onPresetData(FormEvent $event)
-	{
-		$form = $event->getForm();
-
-		$form->add('path', HiddenType::class, [
-			'required' => false,
-			'label' => false
-		]);
-	}
 }

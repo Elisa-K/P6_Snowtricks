@@ -113,11 +113,18 @@
 
         {# ======= Content ======= #}
         <main>
+            {% if app.user and not app.user.isActive %}
+                <div id="alert-noactive-account" class="alert alert-warning alert-dismissible" role="alert">
+                    <strong>Votre compte n'est pas activé.</strong><br><a href="{{ path('app_resend_token_activation') }}">Cliquez ici pour renvoyer le lien d'activation.</a>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
             {% block body %}{% endblock %}
         </main>
         {# End Content #}
 
         {% include "alert/_alert.html.twig" %}
+
 
         {# ======= Footer ======= #}
         <footer id="footer">
