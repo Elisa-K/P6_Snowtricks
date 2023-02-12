@@ -120,6 +120,14 @@ h6 {
   width: 35px;
   height: 35px;
   border-radius: 100%;
+  object-fit: cover;
+}
+
+.img-preview-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+  object-fit: cover;
 }
 
 /*--------------------------------------------------------------
@@ -950,6 +958,7 @@ section {
   width: 60px;
   height: 60px;
   border-radius: 100%;
+  object-fit: cover;
 }
 
 .trick-single .trick-comments .comment h5 {
