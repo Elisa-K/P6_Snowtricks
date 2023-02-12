@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 
 class TrickFormType extends AbstractType
@@ -63,21 +64,29 @@ class TrickFormType extends AbstractType
 			'choice_label' => 'name',
 			'placeholder' => 'Choisir un groupe'
 		]);
+
+		$featuredImgConstraints = [
+			new File([
+				'maxSize' => '2M',
+				'mimeTypes' => [
+					'image/jpg',
+					'image/jpeg',
+					'image/png'
+				]
+			])
+		];
+		if (!$isEdit) {
+			$featuredImgConstraints[] = new NotNull([
+				'message' => 'Veuillez ajouter une image de couverture'
+			]);
+		}
 		$builder->add('featuredImage', FileType::class, [
-			'required' => !$isEdit,
+			'required' => false,
 			'mapped' => false,
 			'label' => 'Image à la une *',
-			'constraints' => [
-				new File([
-					'maxSize' => '2M',
-					'mimeTypes' => [
-						'image/jpg',
-						'image/jpeg',
-						'image/png'
-					]
-				])
-			]
+			'constraints' => $featuredImgConstraints
 		]);
+
 		$builder->add('photos', CollectionType::class, [
 			'entry_type' => PhotoType::class,
 			'label' => 'Photos',

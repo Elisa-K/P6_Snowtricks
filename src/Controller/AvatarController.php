@@ -14,6 +14,7 @@ class AvatarController extends AbstractController
 {
 
 	#[Route('/editavatar', name: 'app_edit_avatar')]
+	#[isGranted('ROLE_USER')]
 	public function editAvatar(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader)
 	{
 		$user = $this->getUser();

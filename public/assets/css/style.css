@@ -1131,6 +1131,12 @@ section {
   font-weight: bold;
 }
 
+.form-trick .trick-info{
+  width: 50% !important;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+}
+
 .form-trick .btn-remove{
   border: none;
   background: none;
@@ -1138,10 +1144,10 @@ section {
 }
 
 .img-preview{
-  width: auto;
-  height: 150px;
-  object-fit: contain;
-  margin-bottom: 10px;
+  width: auto !important;
+  height: 150px !important;
+  object-fit: contain !important;
+  margin-bottom: 10px !important;
 }
 
 #photos .d-flex div:first-child, #videos .d-flex div:first-child{
