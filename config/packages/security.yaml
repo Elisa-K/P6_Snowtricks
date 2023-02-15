@@ -16,6 +16,17 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\UsersAuthenticator
+            form_login:
+                check_path: app_login
+                login_path: app_login
+                default_target_path: app_home
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: app_home
+            entry_point: 'form_login'
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -28,6 +39,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+    access_denied_url: /error405
 
 when@test:
     security:

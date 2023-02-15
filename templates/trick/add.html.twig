@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks - Ajouter une figure{% endblock %}
+
+{% block body %}
+<section class="trick-single">
+	<h2 class="fw-bold text-center text-white mb-5">Ajouter une figure</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 entries">
+				<div class="entry entry-single w-100 m-auto">
+					<div class="form-trick">
+						{{ form_start(trickForm) }}
+								{% include 'trick/_trickForm.html.twig' %}
+								<div class="col-12 text-end">
+									<button type="submit" class="btn btn-success">Publier</button>
+								</div>
+							{{ form_widget(trickForm._token) }}
+						{{ form_end(trickForm, {render_rest: false}) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+
+{% block javascripts %}
+	<script src="{{ asset('assets/js/addTrick.js')}}" defer></script>
+{% endblock %}

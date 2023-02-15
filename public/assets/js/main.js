@@ -160,10 +160,13 @@
 
   const seeMediasButton = document.getElementById('seeMedias');
 
-  seeMediasButton.addEventListener('click', () => {
-    let mediasBlock = document.getElementById('medias');
-    mediasBlock.classList.add('d-flex');
-    seeMediasButton.classList.add('d-none');
-  })
+  if (seeMediasButton) {
+    seeMediasButton.addEventListener('click', () => {
+      let mediasBlock = document.getElementById('medias');
+      mediasBlock.classList.add('d-flex');
+      seeMediasButton.classList.add('d-none');
+    })
+  }
+
 
 })()

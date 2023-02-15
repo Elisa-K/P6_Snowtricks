@@ -1,0 +1,71 @@
+<div class="entry-img">
+	<div class="trick-info">
+		{{ form_row(trickForm.name) }}
+	</div>
+	<div class="trick-action">
+		<a href="" class="btn-modify" data-bs-toggle="modal" data-bs-target="#modalFeaturedImg"><i class="bi bi-pencil-fill"></i></a>
+		<div id="modalFeaturedImg" class="modal fade" tab-index="-1" aria-labelledby="featuredImg" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="featuredImg">Choisir une image de couverture</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						{{ form_widget(trickForm.featuredImage) }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<img id="img-preview-featured" src="{{ trick is defined ? asset('uploads/') ~ trick.featuredImage : asset('assets/img/default-hero.png') }}" alt="" class="img-fluid">
+</div>
+{{ form_errors(trickForm.featuredImage)}}
+<div class="entry-media">
+	<div id="medias" class="row">
+		<h3>Gallerie</h3>
+		<div class="col-12">
+			<div
+				id="photos"
+				class="row photos"
+				data-prototype="{{ include("trick/_photoForm.html.twig", {form: trickForm.photos.vars.prototype})|e('html_attr') }}"
+				data-index="{{ trickForm.photos|length > 0 ? trickForm.photos|last.vars.name + 1 : 0 }}">
+				{% for photo in trickForm.photos %}
+					<div class="col-12 col-lg-4">
+						{{ include("trick/_photoForm.html.twig", {form: photo}) }}
+					</div>
+				{% endfor %}
+
+			</div>
+			<button type="button" class="btn btn-primary add-media mb-3" data-list-selector="#photos">Ajouter une photo</button>
+
+		</div>
+		<hr>
+		<div class="col-12">
+			<div
+				id="videos"
+				class="row videos"
+				data-prototype="{{ include("trick/_videoForm.html.twig", {form: trickForm.videos.vars.prototype})|e('html_attr') }}"
+				data-index="{{ trickForm.videos|length > 0 ? trickForm.videos|last.vars.name + 1 : 0 }}">
+				{% for video in trickForm.videos %}
+					<div class="col-12 col-lg-4">
+						{{ include("trick/_videoForm.html.twig", {form: video}) }}
+					</div>
+				{% endfor %}
+			</div>
+			<button type="button" class="btn btn-primary add-media mb-3" data-list-selector="#videos">Ajouter une vidéo</button>
+
+		</div>
+	</div>
+	<button id="seeMedias" class="btn btn-sm btn-primary d-block d-lg-none">Voir la gallerie</button>
+</div>
+<div class="entry-content mt-5">
+	<div class="col-12">
+		{{ form_row(trickForm.description, { 'attr': {'rows': '10'} }) }}
+	</div>
+	<div class="col-12">
+	{{ form_row(trickForm.groupTrick) }}
+	</div>
+</div>
+

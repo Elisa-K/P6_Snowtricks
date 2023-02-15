@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ST - {{ trick.name }}{% endblock %}
+{% block title %}SnowTricks - {{ trick.name }}{% endblock %}
 
 {% block body %}
 
@@ -9,7 +9,6 @@
 		<div class="row">
 			<div class="col-lg-12 entries">
 				<article class="entry entry-single">
-
 					<div class="entry-img">
 						<div class="trick-info">
 							<div class="trick-group">
@@ -18,28 +17,32 @@
 							<h2>{{ trick.name }}</h2>
 						</div>
 
-						{# TODO display button only for connected user #}
+						{% if app.user %}
+							<div class="trick-action">
+								<a href="{{ path('app_trick_edit', {slug:trick.slug}) }}" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
+								{% if app.user.id == trick.author.id %}
+									<a href="" class="btn-delete" data-bs-toggle="modal" data-bs-target="#modalDeleteTrick"><i class="bi bi-trash-fill"></i></a>
+									{% include 'trick/_modalDelete.html.twig' %}
+								{% endif %}
+							</div>
+						{% endif %}
 
-						{# <div class="trick-action">
-							<a href="add-trick.html" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
-							<a href="add-trick.html" class="btn-delete"><i class="bi bi-trash-fill"></i></a>
-						</div> #}
-						<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}" alt="{{ trick.name }}" class="img-fluid">
+						<img src="{{ asset('uploads/') ~ trick.featuredImage }}" alt="{{ trick.name }}" class="img-fluid">
 					</div>
 
 					<div class="entry-media">
 						<div id="medias" class="row">
 						<h3>Gallerie</h3>
 						{% for photo in trick.photos %}
-							<a href="{{ asset('assets/uploads/') ~ photo.path }}" data-toggle="lightbox" data-gallery="mixedgallery" class="col-6 col-md-4 col-xl-3 mt-2 text-center">
-								<img src="{{ asset('assets/uploads/') ~ photo.path }}">
+							<a href="{{ asset('uploads/') ~ photo.path }}" data-toggle="lightbox" data-gallery="mixedgallery" class="col-6 col-md-4 col-xl-3 mt-2 text-center">
+								<img src="{{ asset('uploads/') ~ photo.path }}">
 							</a>
 						{% endfor %}
 
 						{% for video in trick.videos %}
 							<a href="{{ video.embed }}" data-toggle="lightbox" data-gallery="mixedgallery" class="col-6 col-md-4 col-xl-3 mt-2 text-center">
 								<div class="video">
-									<img src="{{ asset('assets/uploads/') ~ trick.featuredImage }}">
+									<img src="{{ asset('uploads/') ~ trick.featuredImage }}">
 									<i class="bi bi-play-btn-fill"></i>
 								</div>
 							</a>
@@ -51,7 +54,7 @@
 					<div class="entry-content">
 						<h3>Description</h3>
 						<p>
-							{{ trick.description }}
+							{{ trick.description|nl2br }}
 						</p>
 					</div>
 
@@ -62,20 +65,58 @@
 						{% if trick.updatedAt is not empty %}
 						<li class="d-flex align-items-center"><i class="bi bi-pencil"></i>{{ trick.updatedAt|date("d/m/Y \\à\\ H:i") }}</li>
 						{% endif %}
-						<li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i>{{ pluralize(trick.comments|length, 'commentaire', 'commentaires' )}}</li>
+						<li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i>{{ inflector(trick.comments|length, 'commentaire') }}</li>
 						</ul>
 					</div>
 
-					<!-- ======= Comments Section ======= -->
-					<div class="blog-comments">
-					</div><!-- End Comments Section -->
+					{# <!-- ======= Comments Section ======= --> #}
+					<div class="trick-comments">
+
+						{% if commentForm is defined %}
+							<div class="reply-form mb-5">
+								<h4>Laisser un commentaire</h4>
+								{{ form_start(commentForm) }}
+									{{ form_row(commentForm.content) }}
+									<button type="submit" class="btn btn-primary">Poster mon commentaire</button>
+								{{ form_end(commentForm) }}
+							</div>
+						{% else %}
+								<hr class="mt-5">
+								<h4 class="text-center"><a class="text-primary fw-bold" href="{{ path('app_login') }}">Connectez-vous</a> pour poster un commentaire.</h4>
+								<hr class="mb-5">
+						{% endif %}
 
 
-				</article><!-- End blog entry -->
+						<h4 class="comments-count">{{ inflector(trick.comments|length, 'commentaire') }}</h4>
+
+						{% for comment in trick.comments %}
+							<div class="comment">
+								<div class="d-flex">
+									<div class="comment-avatar">
+										<img src="{% if comment.author.avatarPath is null %}{{ asset('assets/img/default_avatar.jpg')}}{% else %}{{ asset('uploads/avatars/') ~ comment.author.avatarPath }}{% endif %}" alt="{{ comment.author.username }}">
+									</div>
+									<div>
+										<h5>{{ comment.author.username }}</h5>
+										<span>{{ comment.createdAt|date("d/m/Y \\à\\ H:i") }}</span>
+										<p>
+											{{ comment.content|nl2br }}
+										</p>
+									</div>
+								</div>
+							 </div>{# <!-- End comment #1 --> #}
+						{% endfor %}
+
+						<div class="col-lg-12 mt-4 text-center">
+							<a href="#" class="btn-learn-more">Voir plus</a>
+						</div>
+
+					 </div>{# <!-- End Comments Section --> #}
+
+				 </article>{# <!-- End blog entry --> #}
 			</div>
 		</div>
 	</div>
-</section><!-- End Trick Single Section -->
+ </section>{# <!-- End Trick Single Section --> #}
 
 {% endblock %}
 

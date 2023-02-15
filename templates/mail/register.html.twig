@@ -1,0 +1,6 @@
+<h1>Snowtricks</h1>
+<h2>Activation de votre compte</h2>
+<p>Bonjour {{ user.username }},</p>
+<p>Pour valider votre inscription, veuillez cliquer sur le lien ci-dessous :</p>
+<p><a href="{{ absolute_url(path('app_activation_user', {token: token})) }}">{{ absolute_url(path('app_activation_user', {token: token})) }}</a></p>
+<p>Ce lien expirera dans 3 heures</p>
