@@ -100,7 +100,7 @@
   let backtotop = select('.back-to-top')
   if (backtotop) {
     const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
+      if (window.scrollY > document.getElementById('tricks').getBoundingClientRect().top) {
         backtotop.classList.add('active')
       } else {
         backtotop.classList.remove('active')

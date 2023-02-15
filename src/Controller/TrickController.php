@@ -24,8 +24,23 @@ class TrickController extends AbstractController
     #[Route('/', name: 'app_home', methods: 'GET')]
     public function index(TrickRepository $trickRepository): Response
     {
-        $tricks = $trickRepository->findBy([], ['createdAt' => 'DESC']);
+        $tricks = $trickRepository->loadTricks(0, 4);
         return $this->render('home/index.html.twig', compact('tricks'));
+    }
+
+    #[Route('/loadmoretricks', methods: 'POST')]
+    public function loadMoreTricks(Request $request, TrickRepository $trickRepository)
+    {
+        $data = $request->toArray();
+        $tricks = $trickRepository->loadTricks($data['start'], $data['limit']);
+        $lastResult = $data['start'] + $data['limit'] >= $trickRepository->countTrick();
+        if ($tricks) {
+            $htmlData = [];
+            foreach ($tricks as $trick) {
+                $htmlData[] = $this->renderView('/trick/_trickCard.html.twig', ['trick' => $trick]);
+            }
+        }
+        return $this->json(['html' => $htmlData, 'lastResult' => $lastResult]);
     }
 
     #[Route('/tricks/details/{slug}', name: 'app_trick_show', methods: ['GET', 'POST'])]

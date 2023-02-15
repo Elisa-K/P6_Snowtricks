@@ -18,18 +18,25 @@
     <section id="tricks" class="tricks">
       <div class="container">
 
-        <div class="row">
+        <div id="moreTricks" class="row">
           {% for trick in tricks %}
             {% include 'trick/_trickCard.html.twig' %}
           {% endfor %}
         </div>
-
+        <div class="col-12 text-center mb-3">
+          <img src="{{ asset('assets/img/spinner.gif') }}" id="spinner" class="invisible">
+        </div>
         <div class="col-lg-12 text-center">
-          <a href="#" class="btn-learn-more">Voir plus</a>
+
+          <a id="btnMoreTricks" class="btn-learn-more" data-start="4" data-limit="4">Voir plus</a>
         </div>
       </div>
     </section><!-- End Tricks Section -->
 
-    <a href="{{ path('app_home') }}#tricks" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="{{ path('app_home') }}#tricks" id="backToTopTricks" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+{% endblock %}
+
+{% block javascripts %}
+  <script src="{{ asset('assets/js/home.js') }}"></script>
 {% endblock %}

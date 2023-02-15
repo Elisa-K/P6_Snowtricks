@@ -39,6 +39,24 @@ class TrickRepository extends ServiceEntityRepository
         }
     }
 
+    public function countTrick()
+    {
+        return intval($this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult());
+    }
+
+    public function loadTricks(int $start, int $limit): array
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setFirstResult($start)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Trick[] Returns an array of Trick objects
 //     */
