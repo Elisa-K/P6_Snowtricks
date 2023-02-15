@@ -27,4 +27,10 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+    #[Route(path: '/error405', name: 'app_access_denied')]
+    public function error405(): Response
+    {
+        return $this->redirectToRoute('app_home');
+    }
 }

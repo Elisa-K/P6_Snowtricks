@@ -75,6 +75,12 @@ class JWTService
 		return $payload['exp'] < $now->getTimestamp();
 	}
 
+	public function checkAction(string $token, string $action): bool
+	{
+		$payload = $this->getPayload($token);
+		return $payload['action'] === $action;
+	}
+
 	public function check(string $token, string $secret)
 	{
 

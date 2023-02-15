@@ -33,7 +33,7 @@ class TrickController extends AbstractController
     {
         $data = ['trick' => $trick];
 
-        if ($this->isGranted('ROLE_USER')) {
+        if ($this->isGranted('ROLE_USER_VERIFIED')) {
             $comment = new Comment();
             $form = $this->createForm(CommentFormType::class, $comment)->handleRequest($request);
             $data['commentForm'] = $form;
@@ -50,7 +50,7 @@ class TrickController extends AbstractController
     }
 
     #[Route('/tricks/add', name: 'app_trick_add', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_VERIFIED')]
     public function add(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, FileUploader $fileUploader): Response
     {
         $trick = new Trick();
@@ -58,32 +58,32 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // foreach ($trick->getPhotos() as $photo) {
-            //     if ($photo->file != null) {
-            //         $photo->setPath($fileUploader->upload($photo->file));
-            //         continue;
-            //     }
-            //     $trick->removePhoto($photo);
-            // }
+            foreach ($trick->getPhotos() as $photo) {
+                if ($photo->file != null) {
+                    $photo->setPath($fileUploader->upload($photo->file));
+                    continue;
+                }
+                $trick->removePhoto($photo);
+            }
 
-            // $featuredImg = $form->get('featuredImage')->getData();
-            // $trick->setFeaturedImage($fileUploader->upload($featuredImg));
+            $featuredImg = $form->get('featuredImage')->getData();
+            $trick->setFeaturedImage($fileUploader->upload($featuredImg));
 
-            // $trick
-            //     ->setAuthor($this->getUser())
-            //     ->setSlug($slugger->slug($trick->getName())->lower());
+            $trick
+                ->setAuthor($this->getUser())
+                ->setSlug($slugger->slug($trick->getName())->lower());
 
 
-            // $entityManager->persist($trick);
-            // $entityManager->flush();
-            // $this->addFlash('success', 'La figure ' . $trick->getName() . ' est publiée avec succès !');
-            // return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
+            $entityManager->persist($trick);
+            $entityManager->flush();
+            $this->addFlash('success', 'La figure ' . $trick->getName() . ' est publiée avec succès !');
+            return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
         }
         return $this->render('trick/add.html.twig', ['trickForm' => $form]);
     }
 
     #[Route('/tricks/edit/{slug}', name: 'app_trick_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_VERIFIED')]
     public function edit(Trick $trick, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $photos = $trick->getPhotos();
@@ -124,7 +124,7 @@ class TrickController extends AbstractController
     }
 
     #[Route('/tricks/delete/{id}', name: 'app_trick_delete', methods: ['DELETE'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_VERIFIED')]
     public function delete(Trick $trick, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $this->denyAccessUnlessGranted('TRICK_DELETE', $trick);

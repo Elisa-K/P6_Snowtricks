@@ -1,7 +1,7 @@
 
 {{ form_start(form,{'action': path('app_edit_avatar'),'attr': {'id': 'formAvatar'}}) }}
 	<div class="modal-body text-center">
-		<img id="avatarImg" src="{% if avatar is null %}{{ asset('assets/img/default_avatar.jpg')}}{% else %}{{ asset('uploads/avatars/') ~ avatar }}{% endif %}" alt="" class="img-fluid img-preview-avatar mb-2">
+		<img id="avatarImg" src="{{ app.user.avatarPath is null ? asset('assets/img/default_avatar.jpg') : asset('uploads/avatars/' ~ app.user.avatarPath ) }}" alt="" class="img-fluid img-preview-avatar mb-2">
 		{{ form_row(form.avatarPath)}}
 	</div>
 	<div class="modal-footer">

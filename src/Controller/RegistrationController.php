@@ -46,13 +46,11 @@ class RegistrationController extends AbstractController
             ];
 
             $payload = [
+                'action' => 'activation',
                 'user_id' => $user->getId()
             ];
 
-            // On génère le token
             $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
-            $user->setTokenActivation($token);
-
 
             $mail->send(
                 $user->getEmail(),
@@ -73,7 +71,7 @@ class RegistrationController extends AbstractController
     #[Route('/activation/{token}', name: 'app_activation_user', methods: ['GET'])]
     public function verifyUser($token, JWTService $jwt, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
-        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $this->getParameter('app.jwtsecret'))) {
+        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->checkAction($token, 'activation') && $jwt->check($token, $this->getParameter('app.jwtsecret'))) {
 
             $payload = $jwt->getPayload($token);
 
@@ -81,10 +79,11 @@ class RegistrationController extends AbstractController
 
             if ($user && !$user->isActive()) {
                 $user->setActive(true);
+                $user->setRoles(['ROLE_USER_VERIFIED']);
                 $entityManager->persist($user);
                 $entityManager->flush();
-                $this->addFlash('success', 'Votre compte est activé !');
-                return $this->redirectToRoute('app_home');
+                $this->addFlash('success', 'Votre compte est activé ! Vous pouvez maintenant vous connecter.');
+                return $this->redirectToRoute('app_login');
             }
         }
         $this->addFlash('danger', 'Le lien est invalide ou a expiré');
@@ -95,10 +94,11 @@ class RegistrationController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function resendTokenActivation(JWTService $jwt, SendMailService $mail, UserRepository $userRepository): Response
     {
-
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
 
-        // Vérifié utilisateur connecté (VOTER)
         if ($user->isActive()) {
             $this->addFlash('danger', 'Votre compte est déjà activé');
             return $this->redirectToRoute('app_home');
@@ -110,10 +110,11 @@ class RegistrationController extends AbstractController
         ];
 
         $payload = [
+            'action' => 'activation',
             'user_id' => $user->getId()
         ];
 
-        // On génère le token
+
         $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
 
         $mail->send(

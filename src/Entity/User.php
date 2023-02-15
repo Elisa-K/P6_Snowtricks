@@ -48,11 +48,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $tokenActivation = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $tokenReset = null;
 
     public function __construct()
     {
@@ -160,30 +155,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getTokenActivation(): ?string
-    {
-        return $this->tokenActivation;
-    }
-
-    public function setTokenActivation(?string $tokenActivation): self
-    {
-        $this->tokenActivation = $tokenActivation;
-
-        return $this;
-    }
-
-    public function getTokenReset(): ?string
-    {
-        return $this->tokenReset;
-    }
-
-    public function setTokenReset(?string $tokenReset): self
-    {
-        $this->tokenReset = $tokenReset;
 
         return $this;
     }
