@@ -89,25 +89,12 @@
 
 						<h4 class="comments-count">{{ inflector(trick.comments|length, 'commentaire') }}</h4>
 
-						{% for comment in trick.comments %}
-							<div class="comment">
-								<div class="d-flex">
-									<div class="comment-avatar">
-										<img src="{% if comment.author.avatarPath is null %}{{ asset('assets/img/default_avatar.jpg')}}{% else %}{{ asset('uploads/avatars/') ~ comment.author.avatarPath }}{% endif %}" alt="{{ comment.author.username }}">
-									</div>
-									<div>
-										<h5>{{ comment.author.username }}</h5>
-										<span>{{ comment.createdAt|date("d/m/Y \\à\\ H:i") }}</span>
-										<p>
-											{{ comment.content|nl2br }}
-										</p>
-									</div>
-								</div>
-							 </div>{# <!-- End comment #1 --> #}
-						{% endfor %}
-
+						<div id="moreComments"></div>
+						<div class="col-12 text-center mb-3">
+							<img src="{{ asset('assets/img/spinner.gif') }}" id="spinner" class="invisible">
+						</div>
 						<div class="col-lg-12 mt-4 text-center">
-							<a href="#" class="btn-learn-more">Voir plus</a>
+							<a id="btnMoreComments" class="btn-learn-more" data-start="0" data-limit="5" data-slug="{{ trick.slug }}">Voir plus</a>
 						</div>
 
 					 </div>{# <!-- End Comments Section --> #}
@@ -122,4 +109,5 @@
 
 {% block javascripts %}
 	<script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.2/dist/index.bundle.min.js"></script>
+	<script src="{{ asset('assets/js/showTrick.js') }}"></script>
 {% endblock %}

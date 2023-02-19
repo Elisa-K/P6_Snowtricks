@@ -10,6 +10,7 @@ use App\Form\TrickFormType;
 use App\Form\CommentFormType;
 use App\Service\FileUploader;
 use App\Repository\TrickRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,11 +34,26 @@ class TrickController extends AbstractController
     {
         $data = $request->toArray();
         $tricks = $trickRepository->loadTricks($data['start'], $data['limit']);
-        $lastResult = $data['start'] + $data['limit'] >= $trickRepository->countTrick();
+        $lastResult = $data['start'] + $data['limit'] >= $trickRepository->countTricks();
         if ($tricks) {
             $htmlData = [];
             foreach ($tricks as $trick) {
                 $htmlData[] = $this->renderView('/trick/_trickCard.html.twig', ['trick' => $trick]);
+            }
+        }
+        return $this->json(['html' => $htmlData, 'lastResult' => $lastResult]);
+    }
+
+    #[Route('/loadmorecomments/{slug}', methods: 'POST')]
+    public function loadMoreComments(Trick $trick, Request $request, CommentRepository $commentRepository)
+    {
+        $data = $request->toArray();
+        $comments = $commentRepository->loadComments($trick, $data['start'], $data['limit']);
+        $lastResult = $data['start'] + $data['limit'] >= $commentRepository->countComments($trick);
+        if ($comments) {
+            $htmlData = [];
+            foreach ($comments as $comment) {
+                $htmlData[] = $this->renderView('/trick/_commentCard.html.twig', ['comment' => $comment]);
             }
         }
         return $this->json(['html' => $htmlData, 'lastResult' => $lastResult]);

@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Trick;
 use App\Entity\Comment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Comment>
@@ -39,6 +40,27 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
+    public function countComments(Trick $trick)
+    {
+        return intval($this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->where('c.trick = :trick')
+            ->setParameter("trick", $trick)
+            ->getQuery()
+            ->getSingleScalarResult());
+    }
+
+    public function loadComments(Trick $trick, int $start, int $limit): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where("c.trick = :trick")
+            ->orderBy('c.createdAt', 'DESC')
+            ->setFirstResult($start)
+            ->setMaxResults($limit)
+            ->setParameter("trick", $trick)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

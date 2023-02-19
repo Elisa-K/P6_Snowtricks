@@ -39,7 +39,7 @@ class TrickRepository extends ServiceEntityRepository
         }
     }
 
-    public function countTrick()
+    public function countTricks()
     {
         return intval($this->createQueryBuilder('t')
             ->select('COUNT(t.id)')
