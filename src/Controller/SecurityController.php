@@ -104,9 +104,4 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
-    #[Route(path: '/error405', name: 'app_access_denied')]
-    public function error405(): Response
-    {
-        return $this->redirectToRoute('app_home');
-    }
 }
