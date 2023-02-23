@@ -38,7 +38,7 @@ class JWTService
 		return $jwt;
 	}
 
-	public function isValid(string $token): bool
+	public function isMatch(string $token): bool
 	{
 		return preg_match(
 			'/^[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+$/',
@@ -90,5 +90,10 @@ class JWTService
 		$verifToken = $this->generate($header, $payload, $secret, 0);
 
 		return $token === $verifToken;
+	}
+
+	public function isValid(string $token, string $action, string $secret): bool
+	{
+		return $this->isMatch($token) && !$this->isExpired($token) && $this->checkAction($token, $action) && $this->check($token, $secret);
 	}
 }

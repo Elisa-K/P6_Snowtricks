@@ -82,7 +82,13 @@
 							</div>
 						{% else %}
 								<hr class="mt-5">
-								<h4 class="text-center"><a class="text-primary fw-bold" href="{{ path('app_login') }}">Connectez-vous</a> pour poster un commentaire.</h4>
+									<h4 class="text-center">
+									{% if app.user %}
+										Activer votre compte pour poster un commentaire.<a class="text-primary fw-bold" href="{{path('app_resend_token_activation') }}">Cliquez ici pour activer votre compte.</a>
+									{% else %}
+										<a class="text-primary fw-bold" href="{{ path('app_login') }}">Connectez-vous</a> pour poster un commentaire.
+									{% endif %}
+									</h4>
 								<hr class="mb-5">
 						{% endif %}
 

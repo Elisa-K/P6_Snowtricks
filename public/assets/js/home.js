@@ -16,16 +16,11 @@ function loadmore(input) {
 	let start = parseInt(input.dataset.start);
 	let limit = parseInt(input.dataset.limit);
 
-	const params = {
-		'start': start,
-		'limit': limit
-	};
 	const options = {
-		method: 'POST',
-		body: JSON.stringify(params)
+		method: 'GET',
 	};
 
-	fetch('/loadmoretricks', options)
+	fetch('/loadmoretricks?start='+ start + '&limit=' + limit, options)
 		.then(response => response.json())
 		.then(data => {
 			hideSpinner();

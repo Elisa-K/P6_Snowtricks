@@ -29,34 +29,32 @@ class TrickController extends AbstractController
         return $this->render('home/index.html.twig', compact('tricks'));
     }
 
-    #[Route('/loadmoretricks', methods: 'POST')]
+    #[Route('/loadmoretricks', methods: 'GET')]
     public function loadMoreTricks(Request $request, TrickRepository $trickRepository)
     {
-        $data = $request->toArray();
-        $tricks = $trickRepository->loadTricks($data['start'], $data['limit']);
-        $lastResult = $data['start'] + $data['limit'] >= $trickRepository->countTricks();
-        if ($tricks) {
-            $htmlData = [];
-            foreach ($tricks as $trick) {
-                $htmlData[] = $this->renderView('/trick/_trickCard.html.twig', ['trick' => $trick]);
-            }
-        }
-        return $this->json(['html' => $htmlData, 'lastResult' => $lastResult]);
+        $start = $request->query->getInt('start');
+        $limit = $request->query->getInt('limit');
+        $tricks = $trickRepository->loadTricks($start, $limit);
+        $lastResult = $start + $limit >= $trickRepository->countTricks();
+
+        return $this->json([
+            'html' => array_map(fn(Trick $trick): string => $this->renderView('/trick/_trickCard.html.twig', ['trick' => $trick]), $tricks),
+            'lastResult' => $lastResult
+        ]);
     }
 
-    #[Route('/loadmorecomments/{slug}', methods: 'POST')]
+    #[Route('/loadmorecomments/{slug}', methods: 'GET')]
     public function loadMoreComments(Trick $trick, Request $request, CommentRepository $commentRepository)
     {
-        $data = $request->toArray();
-        $comments = $commentRepository->loadComments($trick, $data['start'], $data['limit']);
-        $lastResult = $data['start'] + $data['limit'] >= $commentRepository->countComments($trick);
-        if ($comments) {
-            $htmlData = [];
-            foreach ($comments as $comment) {
-                $htmlData[] = $this->renderView('/trick/_commentCard.html.twig', ['comment' => $comment]);
-            }
-        }
-        return $this->json(['html' => $htmlData, 'lastResult' => $lastResult]);
+        $start = $request->query->getInt('start');
+        $limit = $request->query->getInt('limit');
+        $comments = $commentRepository->loadComments($trick, $start, $limit);
+        $lastResult = $start + $limit >= $commentRepository->countComments($trick);
+
+        return $this->json([
+            'html' => array_map(fn(Comment $comment): string => $this->renderView('/trick/_commentCard.html.twig', ['comment' => $comment]), $comments),
+            'lastResult' => $lastResult
+        ]);
     }
 
     #[Route('/tricks/details/{slug}', name: 'app_trick_show', methods: ['GET', 'POST'])]

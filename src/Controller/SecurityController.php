@@ -57,7 +57,6 @@ class SecurityController extends AbstractController
 
                 $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
                 $user->setTokenReset($token);
-                $entityManager->persist($user);
                 $entityManager->flush();
 
                 $mail->send(
@@ -78,21 +77,21 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/resetpassword/{tokenReset}', name: 'app_reset_password')]
-    public function resetPassword($tokenReset, UserRepository $userRepository, Request $request, JWTService $jwt, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function resetPassword(User $user, Request $request, JWTService $jwt, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = $userRepository->findOneBy(['tokenReset' => $tokenReset]);
-        if ($user && $jwt->isValid($tokenReset) && !$jwt->isExpired($tokenReset) && $jwt->checkAction($tokenReset, 'reset') && $jwt->check($tokenReset, $this->getParameter('app.jwtsecret'))) {
+        $tokenReset = $user->getTokenReset();
+        if ($jwt->isValid($tokenReset, 'reset', $this->getParameter('app.jwtsecret'))) {
+
             $form = $this->createForm(ResetPasswordFormType::class)->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $user->setTokenReset('');
+                $user->setTokenReset(null);
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
                         $user,
                         $form->get('password')->getData()
                     )
                 );
-                $entityManager->persist($user);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mot de passe modifié avec succès.');
