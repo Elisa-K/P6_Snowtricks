@@ -43,8 +43,9 @@ when@prod:
             main:
                 type: rotating_file
                 path:  '%kernel.logs_dir%/%kernel.environment%.log'
-                level: debug
-                max_files: 10
+                level: info
+                channels: [ "!event", "!frontend", "!deprecation"  ]
+                max_files: 3
             nested:
                 type: stream
                 path: php://stderr
