@@ -69,7 +69,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/activation/{token}', name: 'app_activation_user', methods: ['GET'])]
-    public function verifyUser($token, JWTService $jwt, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function verifyUser(string $token, JWTService $jwt, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         if ($jwt->isValid($token, 'activation', $this->getParameter('app.jwtsecret'))) {
 

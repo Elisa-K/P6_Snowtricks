@@ -81,7 +81,7 @@ class JWTService
 		return $payload['action'] === $action;
 	}
 
-	public function check(string $token, string $secret)
+	public function check(string $token, string $secret): bool
 	{
 
 		$header = $this->getHeader($token);

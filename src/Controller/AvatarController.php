@@ -7,6 +7,7 @@ use App\Form\AvatarFormType;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ class AvatarController extends AbstractController
 
 	#[Route('/editavatar', name: 'app_edit_avatar', methods: ['GET', 'POST'])]
 	#[isGranted('ROLE_USER')]
-	public function editAvatar(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader)
+	public function editAvatar(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
 	{
 		/**
 		 * @var User $user
@@ -32,7 +33,7 @@ class AvatarController extends AbstractController
 					$avatarOld = $user->getAvatarPath();
 					$avatarNew = $form->get('avatarPath')->getData();
 					$user->setAvatarPath($fileUploader->upload($avatarNew, "avatar"));
-					if ($avatarOld != null)
+					if ($avatarOld !== null)
 						$fileUploader->delete($avatarOld, "avatar");
 
 					$entityManager->persist($user);

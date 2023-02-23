@@ -12,13 +12,13 @@ use App\Service\FileUploader;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TrickController extends AbstractController
 {
@@ -30,7 +30,7 @@ class TrickController extends AbstractController
     }
 
     #[Route('/loadmoretricks', methods: 'GET')]
-    public function loadMoreTricks(Request $request, TrickRepository $trickRepository)
+    public function loadMoreTricks(Request $request, TrickRepository $trickRepository): JsonResponse
     {
         $start = $request->query->getInt('start');
         $limit = $request->query->getInt('limit');
@@ -44,7 +44,7 @@ class TrickController extends AbstractController
     }
 
     #[Route('/loadmorecomments/{slug}', methods: 'GET')]
-    public function loadMoreComments(Trick $trick, Request $request, CommentRepository $commentRepository)
+    public function loadMoreComments(Trick $trick, Request $request, CommentRepository $commentRepository): JsonResponse
     {
         $start = $request->query->getInt('start');
         $limit = $request->query->getInt('limit');
@@ -88,7 +88,7 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             foreach ($trick->getPhotos() as $photo) {
-                if ($photo->file != null) {
+                if ($photo->file !== null) {
                     $photo->setPath($fileUploader->upload($photo->file));
                     continue;
                 }
@@ -135,7 +135,7 @@ class TrickController extends AbstractController
             }
 
             $featuredImg = $form->get('featuredImage')->getData();
-            if ($featuredImg != null) {
+            if ($featuredImg !== null) {
                 $trick->setFeaturedImage($fileUploader->upload($featuredImg));
                 $fileUploader->delete($oldFeaturedImg);
             }

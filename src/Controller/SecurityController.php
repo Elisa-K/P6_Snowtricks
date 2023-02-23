@@ -18,7 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/signin', name: 'app_login')]
+    #[Route(path: '/signin', name: 'app_login', methods: ['GET'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -31,13 +31,13 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
+    #[Route(path: '/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route(path: '/forgottenpassword', name: 'app_forgot_password')]
+    #[Route(path: '/forgottenpassword', name: 'app_forgot_password', methods: ['GET', 'POST'])]
     public function forgottenPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager, JWTService $jwt, SendMailService $mail): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class)->handleRequest($request);
@@ -76,7 +76,7 @@ class SecurityController extends AbstractController
         return $this->render('security/forgot_password.html.twig', ['form' => $form]);
     }
 
-    #[Route(path: '/resetpassword/{tokenReset}', name: 'app_reset_password')]
+    #[Route(path: '/resetpassword/{tokenReset}', name: 'app_reset_password', methods: ['GET', 'POST'])]
     public function resetPassword(User $user, Request $request, JWTService $jwt, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $tokenReset = $user->getTokenReset();
