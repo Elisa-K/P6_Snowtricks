@@ -29,11 +29,11 @@
 			<div
 				id="photos"
 				class="row photos"
-				data-prototype="{{ include("trick/_photoForm.html.twig", {form: trickForm.photos.vars.prototype})|e('html_attr') }}"
+				data-prototype="{{ include("trick/_photo_form.html.twig", {form: trickForm.photos.vars.prototype})|e('html_attr') }}"
 				data-index="{{ trickForm.photos|length > 0 ? trickForm.photos|last.vars.name + 1 : 0 }}">
 				{% for photo in trickForm.photos %}
 					<div class="col-12 col-lg-4">
-						{{ include("trick/_photoForm.html.twig", {form: photo}) }}
+						{{ include("trick/_photo_form.html.twig", {form: photo}) }}
 					</div>
 				{% endfor %}
 
@@ -46,11 +46,11 @@
 			<div
 				id="videos"
 				class="row videos"
-				data-prototype="{{ include("trick/_videoForm.html.twig", {form: trickForm.videos.vars.prototype})|e('html_attr') }}"
+				data-prototype="{{ include("trick/_video_form.html.twig", {form: trickForm.videos.vars.prototype})|e('html_attr') }}"
 				data-index="{{ trickForm.videos|length > 0 ? trickForm.videos|last.vars.name + 1 : 0 }}">
 				{% for video in trickForm.videos %}
 					<div class="col-12 col-lg-4">
-						{{ include("trick/_videoForm.html.twig", {form: video}) }}
+						{{ include("trick/_video_form.html.twig", {form: video}) }}
 					</div>
 				{% endfor %}
 			</div>

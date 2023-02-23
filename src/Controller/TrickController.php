@@ -38,7 +38,7 @@ class TrickController extends AbstractController
         $lastResult = $start + $limit >= $trickRepository->countTricks();
 
         return $this->json([
-            'html' => array_map(fn(Trick $trick): string => $this->renderView('/trick/_trickCard.html.twig', ['trick' => $trick]), $tricks),
+            'html' => array_map(fn(Trick $trick): string => $this->renderView('/trick/_trick_card.html.twig', ['trick' => $trick]), $tricks),
             'lastResult' => $lastResult
         ]);
     }
@@ -52,7 +52,7 @@ class TrickController extends AbstractController
         $lastResult = $start + $limit >= $commentRepository->countComments($trick);
 
         return $this->json([
-            'html' => array_map(fn(Comment $comment): string => $this->renderView('/trick/_commentCard.html.twig', ['comment' => $comment]), $comments),
+            'html' => array_map(fn(Comment $comment): string => $this->renderView('/trick/_comment_card.html.twig', ['comment' => $comment]), $comments),
             'lastResult' => $lastResult
         ]);
     }

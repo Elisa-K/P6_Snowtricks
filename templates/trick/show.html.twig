@@ -22,7 +22,7 @@
 								<a href="{{ path('app_trick_edit', {slug:trick.slug}) }}" class="btn-modify"><i class="bi bi-pencil-fill"></i></a>
 								{% if app.user.id == trick.author.id %}
 									<a href="" class="btn-delete" data-bs-toggle="modal" data-bs-target="#modalDeleteTrick"><i class="bi bi-trash-fill"></i></a>
-									{% include 'trick/_modalDelete.html.twig' %}
+									{% include 'trick/_modal_delete.html.twig' %}
 								{% endif %}
 							</div>
 						{% endif %}
@@ -115,5 +115,6 @@
 
 {% block javascripts %}
 	<script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.2/dist/index.bundle.min.js"></script>
-	<script src="{{ asset('assets/js/showTrick.js') }}"></script>
+	{{ parent() }}
+	{{ encore_entry_script_tags('showTrick') }}
 {% endblock %}

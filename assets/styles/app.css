@@ -5,15 +5,8 @@
 * License: https://bootstrapmade.com/license/
 */
 
-
 /* Colors */
 :root {
-  /* --color-dark: #333;
-  --color-light: #DECCCC;
-  --color-default: #094785;
-  --color-primary: #1098F7;
-  --color-secondary: #B89E97; */
-
   --color-light: #9BA4B4;
   --color-primary: #1F2933;
   --color-default: #1F2933;
@@ -22,21 +15,21 @@
 }
 
 /*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
+  # General
+  --------------------------------------------------------------*/
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
 }
 
-main{
+main {
   display: grid;
   min-height: calc(100vh - 120px);
 }
 
-@media(min-width: 992px){
+@media(min-width: 992px) {
 
-  main{
+  main {
     min-height: calc(100vh - 60px);
   }
 
@@ -66,7 +59,7 @@ h6 {
   text-transform: uppercase;
 }
 
-.btn{
+.btn {
   font-family: "Nunito", sans-serif;
   font-weight: 600;
   font-size: 14px;
@@ -81,33 +74,33 @@ h6 {
   margin-top: 6px;
 }
 
-.btn-primary{
+.btn-primary {
   background-color: var(--color-default) !important;
   border-color: var(--color-default) !important;
 }
 
-.btn-outline-primary{
+.btn-outline-primary {
   color: var(--color-default) !important;
   border-color: var(--color-default) !important;
 }
 
-.btn-outline-primary:hover{
+.btn-outline-primary:hover {
   color: #fff !important;
   background-color: var(--color-default) !important;
   border-color: var(--color-default) !important;
 }
 
-.invalid-feedback{
+.invalid-feedback {
   text-align: left;
 }
 
-#flashMessage{
+#flashMessage {
   z-index: 1000;
   top: 225px;
   min-width: 300px;
 }
 
-#alert-noactive-account{
+#alert-noactive-account {
   position: fixed;
   z-index: 1000;
   top: 100px;
@@ -131,8 +124,8 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-# Back to top button
---------------------------------------------------------------*/
+  # Back to top button
+  --------------------------------------------------------------*/
 .back-to-top {
   position: fixed;
   visibility: hidden;
@@ -163,15 +156,15 @@ h6 {
   opacity: 1;
 }
 
-@media(max-width: 991px){
-  .back-to-top{
+@media(max-width: 991px) {
+  .back-to-top {
     bottom: 70px;
   }
 }
 
 /*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
+  # Header
+  --------------------------------------------------------------*/
 #header {
   transition: all 0.5s;
   z-index: 997;
@@ -204,11 +197,11 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-# Navigation Menu
---------------------------------------------------------------*/
+  # Navigation Menu
+  --------------------------------------------------------------*/
 /**
-* Desktop Navigation
-*/
+  * Desktop Navigation
+  */
 .navbar {
   padding: 0;
 }
@@ -225,7 +218,7 @@ h6 {
   position: relative;
 }
 
-.navbar li .avatar{
+.navbar li .avatar {
   margin-right: 10px;
   border: 1px solid #fff;
 }
@@ -331,30 +324,31 @@ h6 {
   left: 100%;
   visibility: visible;
 }
+
 /**
-* Mobile Navigation
-*/
+  * Mobile Navigation
+  */
 
 .navbar-mobile {
   background: #fff;
-  height : 60px;
+  height: 60px;
   border-top: 1px solid rgb(182, 182, 182);
 }
 
-.navbar-mobile a i{
+.navbar-mobile a i {
   font-size: 25px;
 }
 
-.navbar-mobile ul{
+.navbar-mobile ul {
   justify-content: space-between;
 }
 
-.navbar-mobile>ul>li{
+.navbar-mobile>ul>li {
   padding: 10px;
 }
 
 .navbar-mobile a,
-.navbar-mobile a:focus{
+.navbar-mobile a:focus {
   color: #333;
 }
 
@@ -365,17 +359,18 @@ h6 {
   color: #333;
 }
 
-.navbar-mobile li .avatar{
+.navbar-mobile li .avatar {
   margin-right: 0px;
   border: none;
 }
+
 /*--------------------------------------------------------------
-# Hero Section
---------------------------------------------------------------*/
+  # Hero Section
+  --------------------------------------------------------------*/
 #hero {
   width: 100%;
   height: 100vh;
-  background: url("../img/hero.jpg") top center;
+  background: url("/public/assets/img/hero.jpg") top center;
   background-size: cover;
   position: relative;
 }
@@ -467,10 +462,11 @@ h6 {
 }
 
 @media (max-width: 768px) {
-  #hero{
+  #hero {
     height: 50vh;
   }
 }
+
 @media (max-height: 500px) {
   #hero {
     height: 150vh;
@@ -478,8 +474,8 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-# Sections General
---------------------------------------------------------------*/
+  # Sections General
+  --------------------------------------------------------------*/
 section {
   padding: 60px 15px;
   overflow: hidden;
@@ -530,8 +526,8 @@ section {
 }
 
 /*--------------------------------------------------------------
-# All Tricks (homepage)
---------------------------------------------------------------*/
+  # All Tricks (homepage)
+  --------------------------------------------------------------*/
 
 .tricks .trick {
   margin-bottom: 20px;
@@ -569,6 +565,7 @@ section {
   text-transform: uppercase;
   border-radius: 50px;
 }
+
 .tricks .trick .trick-info h4 {
   font-weight: 700;
   margin-bottom: 5px;
@@ -580,15 +577,15 @@ section {
   text-align: right;
 }
 
-.tricks .trick .trick-info .trick-action i{
+.tricks .trick .trick-info .trick-action i {
   margin: 0 5px;
 }
 
-.tricks .trick .trick-info .trick-action .btn-modify{
+.tricks .trick .trick-info .trick-action .btn-modify {
   color: #ee9b00;
 }
 
-.tricks .trick .trick-info .trick-action .btn-delete{
+.tricks .trick .trick-info .trick-action .btn-delete {
   color: #ae2012;
 }
 
@@ -616,8 +613,8 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Trick Single
---------------------------------------------------------------*/
+  # Trick Single
+  --------------------------------------------------------------*/
 .trick-single {
   padding: 100px 0 20px 0;
   position: relative;
@@ -647,21 +644,21 @@ section {
   position: relative;
 }
 
-.trick-single .entry .entry-img:before{
+.trick-single .entry .entry-img:before {
   content: "";
-    background: rgba(0, 0, 0, 0.4);
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
+  background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .trick-single .entry .entry-img img {
   width: 100%;
 }
 
-.trick-single .entry .entry-img .trick-info{
+.trick-single .entry .entry-img .trick-info {
   position: absolute;
   width: 100%;
   top: 50%;
@@ -670,30 +667,30 @@ section {
   text-align: center;
 }
 
-.trick-single .entry .entry-img .trick-info>h2{
+.trick-single .entry .entry-img .trick-info>h2 {
   font-weight: 700;
   font-family: 'Covered By Your Grace', cursive;
   font-size: 4em;
   text-transform: uppercase;
 }
 
-.trick-single .entry .entry-img .trick-action{
+.trick-single .entry .entry-img .trick-action {
   position: absolute;
   right: 0;
-  padding : 10px 15px;
+  padding: 10px 15px;
   background: rgba(255, 255, 255, 0.9);
 
 }
 
-.trick-single .entry .entry-img .trick-action i{
+.trick-single .entry .entry-img .trick-action i {
   margin: 0 5px;
 }
 
-.trick-single .entry .entry-img .trick-action .btn-modify{
+.trick-single .entry .entry-img .trick-action .btn-modify {
   color: #ee9b00;
 }
 
-.trick-single .entry .entry-img .trick-action .btn-delete{
+.trick-single .entry .entry-img .trick-action .btn-delete {
   color: #ae2012;
 }
 
@@ -779,7 +776,7 @@ section {
   color: #fff;
 }
 
-.trick-single .entry .entry-meta li{
+.trick-single .entry .entry-meta li {
   color: #fff;
   font-size: 14px;
   display: inline-block;
@@ -966,7 +963,7 @@ section {
   margin-bottom: 2px;
 }
 
-.trick-single .trick-comments .comment h5{
+.trick-single .trick-comments .comment h5 {
   font-weight: bold;
   color: #444444;
   transition: 0.3s;
@@ -1106,8 +1103,8 @@ section {
 }
 
 @media(max-width:991px) {
-  .trick-single .entry .entry-media #medias{
-    display:none;
+  .trick-single .entry .entry-media #medias {
+    display: none;
   }
 }
 
@@ -1117,124 +1114,132 @@ section {
     padding: 20px 0;
   }
 
-  .trick-single .entry .entry-img .trick-info>h2{
+  .trick-single .entry .entry-img .trick-info>h2 {
     font-size: 2.5em;
   }
 
 
 
 }
+
 /*--------------------------------------------------------------
-# Trick Form
---------------------------------------------------------------*/
-.form-trick .form-label, .form-trick .col-form-label{
+  # Trick Form
+  --------------------------------------------------------------*/
+.form-trick .form-label,
+.form-trick .col-form-label {
   font-weight: bold;
 }
 
-.form-trick .trick-info{
+.form-trick .trick-info {
   width: 50% !important;
   left: 50%;
   transform: translate(-50%, -50%) !important;
 }
 
-.form-trick .btn-remove{
+.form-trick .btn-remove {
   border: none;
   background: none;
   color: #dc3545;
 }
 
-.img-preview{
+.img-preview {
   width: auto !important;
   height: 150px !important;
   object-fit: contain !important;
   margin-bottom: 10px !important;
 }
 
-#photos .d-flex div:first-child, #videos .d-flex div:first-child{
+#photos .d-flex div:first-child,
+#videos .d-flex div:first-child {
   flex: 1;
 }
+
 /*--------------------------------------------------------------
-# Signup
---------------------------------------------------------------*/
-.signup{
+  # Signup
+  --------------------------------------------------------------*/
+.signup {
   display: flex;
   align-items: center;
-  height:100%;
+  height: 100%;
 }
 
-.signup .logo{
+.signup .logo {
   width: 120px;
   filter: brightness(0.3);
 }
 
-.signup .txt-logo{
+.signup .txt-logo {
   font-size: 95px;
 }
-.form-signup{
+
+.form-signup {
   max-width: 450px;
 }
 
-@media(max-width: 768px){
-  .signup .txt-logo{
+@media(max-width: 768px) {
+  .signup .txt-logo {
     font-size: 75px;
   }
 }
 
 /*--------------------------------------------------------------
-# Signin
---------------------------------------------------------------*/
-.signin{
+  # Signin
+  --------------------------------------------------------------*/
+.signin {
   display: flex;
   align-items: center;
-  height:100%;
+  height: 100%;
 }
 
-.signin .logo{
+.signin .logo {
   width: 120px;
   filter: brightness(0.3);
 }
 
-.signin .txt-logo{
+.signin .txt-logo {
   font-size: 95px;
 }
-.form-signin{
+
+.form-signin {
   max-width: 450px;
 }
 
-@media(max-width: 768px){
-  .signin .txt-logo{
+@media(max-width: 768px) {
+  .signin .txt-logo {
     font-size: 75px;
   }
 }
 
 /*--------------------------------------------------------------
-# Error Page
---------------------------------------------------------------*/
+  # Error Page
+  --------------------------------------------------------------*/
 
 .error-page {
-  height:100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-.error-page .logo{
+
+.error-page .logo {
   width: 120px;
   filter: brightness(0.3);
 }
 
-.error-page .txt-logo{
+.error-page .txt-logo {
   font-size: 70px;
 }
 
-@media(max-width: 768px){
-  .error-page .txt-logo{
+@media(max-width: 768px) {
+  .error-page .txt-logo {
     font-size: 75px;
   }
 }
+
 /*--------------------------------------------------------------
-# Footer
---------------------------------------------------------------*/
+  # Footer
+  --------------------------------------------------------------*/
 #footer {
   height: 60px;
   color: #444444;
@@ -1390,9 +1395,9 @@ section {
   text-decoration: none;
 }
 
-@media(max-width: 991px){
+@media(max-width: 991px) {
 
-  #footer{
+  #footer {
     margin-bottom: 60px;
   }
 

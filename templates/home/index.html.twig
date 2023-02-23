@@ -20,7 +20,7 @@
 
         <div id="moreTricks" class="row">
           {% for trick in tricks %}
-            {% include 'trick/_trickCard.html.twig' %}
+            {% include 'trick/_trick_card.html.twig' %}
           {% endfor %}
         </div>
         <div class="col-12 text-center mb-3">
@@ -38,5 +38,6 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('assets/js/home.js') }}"></script>
+  {{ parent() }}
+  {{ encore_entry_script_tags('home') }}
 {% endblock %}

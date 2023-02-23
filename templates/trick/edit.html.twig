@@ -11,12 +11,12 @@
 				<div class="entry entry-single w-100 m-auto">
 					<div class="form-trick">
 						{{ form_start(trickForm) }}
-								{% include 'trick/_trickForm.html.twig' %}
+								{% include 'trick/_trick_form.html.twig' %}
 								<div class="col-12 text-end">
 									<button type="submit" class="btn btn-warning">Modifier</button>
 									{% if app.user.id == trick.author.id %}
 									<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteTrick">Supprimer</button>
-									{% include 'trick/_modalDelete.html.twig' %}
+									{% include 'trick/_modal_delete.html.twig' %}
 								{% endif %}
 								</div>
 							{{ form_widget(trickForm._token) }}
@@ -31,5 +31,6 @@
 
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/addTrick.js')}}" defer></script>
+	{{ parent() }}
+	{{ encore_entry_script_tags('addTrick') }}
 {% endblock %}

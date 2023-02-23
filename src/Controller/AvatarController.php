@@ -54,6 +54,6 @@ class AvatarController extends AbstractController
 
 
 
-		return $this->render('modal/_avatarForm.html.twig', ['form' => $form, 'avatar' => $user->getAvatarPath()]);
+		return $this->render('modal/_avatar_form.html.twig', ['form' => $form, 'avatar' => $user->getAvatarPath()]);
 	}
 }
