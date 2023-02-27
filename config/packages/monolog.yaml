@@ -48,13 +48,13 @@ when@prod:
             main:
                 type: rotating_file
                 path:  '%kernel.logs_dir%/%kernel.environment%.log'
-                level: info
+                level: notice
                 channels: [ "!event", "!frontend", "!deprecation"  ]
                 max_files: 3
             nested:
                 type: stream
                 path: php://stderr
-                level: debug
+                level: info
                 max_files: 7
                 formatter: monolog.formatter.json
             console:
@@ -63,5 +63,6 @@ when@prod:
                 channels: ["!event", "!doctrine"]
             deprecation:
                 type: stream
+                level: info
                 channels: [deprecation]
                 path: php://stderr

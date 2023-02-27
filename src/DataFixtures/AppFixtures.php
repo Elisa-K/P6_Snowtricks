@@ -28,13 +28,8 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
     }
     public function load(ObjectManager $manager): void
     {
-        // 2-les catégories
-        // 3-Les Tricks
-        // 4-les commentaires
-
         $faker = Factory::create('fr_FR');
         $users = [];
-
         $tricks = [
             1 => [
                 'name' => 'Tail Press',
@@ -132,8 +127,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($user);
         }
 
-
-
         foreach ($tricks as $trickName) {
             $trick = new Trick();
             $trick->setName($trickName['name']);
@@ -160,7 +153,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
 
             }
 
-            for ($k = 0; $k < mt_rand(0, 20); $k++) {
+            for ($k = 0; $k < mt_rand(0, 50); $k++) {
                 $comment = new Comment();
                 $comment->setContent($faker->sentences(mt_rand(1, 4), true));
                 $comment->setAuthor($faker->randomElement($users));
