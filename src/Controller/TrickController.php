@@ -60,7 +60,7 @@ class TrickController extends AbstractController
     }
 
     #[Route('/tricks/details/{slug}', name: 'app_trick_show', methods: ['GET', 'POST'])]
-    public function show(Trick $trick, Request $request, EntityManagerInterface $entityManager, CommentAddHandler $handler): Response
+    public function show(Trick $trick, Request $request, CommentAddHandler $handler): Response
     {
         $data = ['trick' => $trick];
 
