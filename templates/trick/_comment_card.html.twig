@@ -1,0 +1,14 @@
+<div class="comment">
+	<div class="d-flex">
+		<div class="comment-avatar">
+			<img src="{% if comment.author.avatarPath is null %}{{ asset('assets/img/default_avatar.jpg')}}{% else %}{{ asset('uploads/avatars/') ~ comment.author.avatarPath }}{% endif %}" alt="{{ comment.author.username }}">
+		</div>
+		<div>
+			<h5>{{ comment.author.username }}</h5>
+			<span>{{ comment.createdAt|date("d/m/Y \\à\\ H:i") }}</span>
+			<p>
+				{{ comment.content|nl2br }}
+			</p>
+		</div>
+	</div>
+</div>

@@ -11,7 +11,7 @@
 				<div class="entry entry-single w-100 m-auto">
 					<div class="form-trick">
 						{{ form_start(trickForm) }}
-								{% include 'trick/_trickForm.html.twig' %}
+								{% include 'trick/_trick_form.html.twig' %}
 								<div class="col-12 text-end">
 									<button type="submit" class="btn btn-success">Publier</button>
 								</div>
@@ -27,5 +27,6 @@
 
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/addTrick.js')}}" defer></script>
+  	{{ parent() }}
+	{{ encore_entry_script_tags('addTrick') }}
 {% endblock %}

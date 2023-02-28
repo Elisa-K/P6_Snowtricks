@@ -13,14 +13,14 @@ class FileUploader
 	private string $targetDirectoryAvatar;
 	private SluggerInterface $slugger;
 
-	public function __construct($targetDirectory, $targetDirectoryAvatar, SluggerInterface $slugger)
+	public function __construct(string $targetDirectory, string $targetDirectoryAvatar, SluggerInterface $slugger)
 	{
 		$this->targetDirectory = $targetDirectory;
 		$this->targetDirectoryAvatar = $targetDirectoryAvatar;
 		$this->slugger = $slugger;
 	}
 
-	public function upload(UploadedFile $file, ?string $type = null)
+	public function upload(UploadedFile $file, ?string $type = null): ?string
 	{
 		$originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 		$safeFilename = $this->slugger->slug($originalFilename);

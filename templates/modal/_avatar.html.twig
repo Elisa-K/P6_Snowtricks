@@ -12,4 +12,6 @@
 	</div>
 </div>
 
-<script src="{{ asset('assets/js/editAvatar.js')}}" defer></script>
+{% block javascripts %}
+    {{ encore_entry_script_tags('editAvatar') }}
+{% endblock %}

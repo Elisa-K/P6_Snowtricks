@@ -11,14 +11,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Handlers\UserHandlers\RegistrationHandler;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/registration', name: 'app_register', methods: ['GET', 'POST'])]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, JWTService $jwt, SendMailService $mail): Response
+    public function register(Request $request, RegistrationHandler $handler): Response
     {
 
         if ($this->getUser()) {
@@ -30,34 +30,7 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $header = [
-                'typ' => 'JWT',
-                'alg' => 'HS256'
-            ];
-
-            $payload = [
-                'action' => 'activation',
-                'user_id' => $user->getId()
-            ];
-
-            $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
-
-            $mail->send(
-                $user->getEmail(),
-                'Snowtricks - Activation de votre compte',
-                'register',
-                compact('user', 'token')
-            );
+            $handler->handle($user, $form);
 
             $this->addFlash('success', 'Votre profil a bien été créé. Un mail a été envoyé afin d\'activer votre compte');
             return $this->redirectToRoute('app_home');
@@ -69,9 +42,9 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/activation/{token}', name: 'app_activation_user', methods: ['GET'])]
-    public function verifyUser($token, JWTService $jwt, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function verifyUser(string $token, JWTService $jwt, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
-        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->checkAction($token, 'activation') && $jwt->check($token, $this->getParameter('app.jwtsecret'))) {
+        if ($jwt->isValid($token, 'activation', $this->getParameter('app.jwtsecret'))) {
 
             $payload = $jwt->getPayload($token);
 

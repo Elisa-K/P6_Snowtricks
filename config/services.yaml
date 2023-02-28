@@ -29,3 +29,4 @@ services:
         arguments:
             $targetDirectory : '%upload_directory%'
             $targetDirectoryAvatar: '%upload_directory_avatar%'
+
