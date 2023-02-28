@@ -21,7 +21,7 @@ function loadmore(input) {
 		method: 'GET'
 	};
 
-	fetch('/loadmorecomments/'+ slug + '?start='+ start + '&limit=' + limit, options)
+	fetch('/tricks/details/'+ slug + '/loadmorecomments/?start='+ start + '&limit=' + limit, options)
 		.then(response => response.json())
 		.then(data => {
 			hideSpinner();

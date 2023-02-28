@@ -4,17 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\JWTService;
-use App\Service\SendMailService;
 use App\Repository\UserRepository;
 use App\Form\ResetPasswordFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Handlers\UserHandlers\ResetPasswordHandler;
+use App\Handlers\UserHandlers\ForgotPasswordHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
@@ -38,33 +37,15 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/forgottenpassword', name: 'app_forgot_password', methods: ['GET', 'POST'])]
-    public function forgottenPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager, JWTService $jwt, SendMailService $mail): Response
+    public function forgottenPassword(Request $request, UserRepository $userRepository, ForgotPasswordHandler $handler): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $userRepository->findOneBy(['email' => $form->get('email')->getData()]);
             if ($user) {
-                $header = [
-                    'typ' => 'JWT',
-                    'alg' => 'HS256'
-                ];
 
-                $payload = [
-                    'action' => 'reset',
-                    'user_id' => $user->getId()
-                ];
-
-                $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
-                $user->setTokenReset($token);
-                $entityManager->flush();
-
-                $mail->send(
-                    $user->getEmail(),
-                    'Snowtricks - Réinitialisation de votre mot de passe',
-                    'password_reset',
-                    compact('user', 'token')
-                );
+                $handler->handle($user);
 
                 $this->addFlash('success', 'Un email vous a été envoyé pour réinitialiser votre mot de passe.');
                 return $this->redirectToRoute('app_login');
@@ -77,7 +58,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/resetpassword/{tokenReset}', name: 'app_reset_password', methods: ['GET', 'POST'])]
-    public function resetPassword(User $user, Request $request, JWTService $jwt, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function resetPassword(User $user, Request $request, JWTService $jwt, ResetPasswordHandler $handler): Response
     {
         $tokenReset = $user->getTokenReset();
         if ($jwt->isValid($tokenReset, 'reset', $this->getParameter('app.jwtsecret'))) {
@@ -85,14 +66,8 @@ class SecurityController extends AbstractController
             $form = $this->createForm(ResetPasswordFormType::class)->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $user->setTokenReset(null);
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $form->get('password')->getData()
-                    )
-                );
-                $entityManager->flush();
+
+                $handler->handle($user, $form);
 
                 $this->addFlash('success', 'Mot de passe modifié avec succès.');
                 return $this->redirectToRoute('app_login');

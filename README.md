@@ -57,7 +57,6 @@ Pour installer le projet, suivez les étapes suivantes :
 ```
 9. Lancer le projet :
 ```bash
-  npm run dev
   symfony serve
 ```
 ## Utilisation
