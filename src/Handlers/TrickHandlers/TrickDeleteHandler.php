@@ -2,6 +2,7 @@
 
 namespace App\Handlers\TrickHandlers;
 
+use App\Entity\Photo;
 use App\Entity\Trick;
 use App\Service\FileUploader;
 
@@ -19,7 +20,7 @@ class TrickDeleteHandler
 	public function handle(Trick $trick): void
 	{
 		$photos = $trick->getPhotos();
-		$images = array_merge([$trick->getFeaturedImage()], $photos->map(static fn($photo) => $photo->getPath())->toArray());
+		$images = array_merge([$trick->getFeaturedImage()], $photos->map(static fn(Photo $photo) => $photo->getPath())->toArray());
 
 		foreach ($images as $image) {
 			$this->fileUploader->delete($image);
